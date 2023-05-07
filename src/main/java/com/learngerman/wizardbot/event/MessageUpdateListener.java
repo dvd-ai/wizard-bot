@@ -1,11 +1,18 @@
 package com.learngerman.wizardbot.event;
 
+import com.learngerman.wizardbot.command.MessageCommandManager;
 import discord4j.core.event.domain.message.MessageUpdateEvent;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class MessageUpdateListener extends MessageListener implements EventListener<MessageUpdateEvent> {
+public class MessageUpdateListener implements EventListener<MessageUpdateEvent> {
+
+    private final MessageCommandManager messageCommandManager;
+
+    public MessageUpdateListener(MessageCommandManager messageCommandManager) {
+        this.messageCommandManager = messageCommandManager;
+    }
 
     @Override
     public Class<MessageUpdateEvent> getEventType() {
@@ -17,6 +24,6 @@ public class MessageUpdateListener extends MessageListener implements EventListe
         return Mono.just(event)
                 .filter(MessageUpdateEvent::isContentChanged)
                 .flatMap(MessageUpdateEvent::getMessage)
-                .flatMap(super::processCommand);
+                .flatMap(messageCommandManager::processCommand);
     }
 }

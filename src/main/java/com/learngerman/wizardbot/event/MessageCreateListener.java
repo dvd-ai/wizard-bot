@@ -1,11 +1,19 @@
 package com.learngerman.wizardbot.event;
 
+import com.learngerman.wizardbot.command.MessageCommandManager;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class MessageCreateListener extends MessageListener implements EventListener<MessageCreateEvent> {
+public class MessageCreateListener implements EventListener<MessageCreateEvent> {
+
+    private final MessageCommandManager messageCommandManager;
+
+    public MessageCreateListener(MessageCommandManager messageCommandManager) {
+        this.messageCommandManager = messageCommandManager;
+    }
+
 
     @Override
     public Class<MessageCreateEvent> getEventType() {
@@ -14,6 +22,6 @@ public class MessageCreateListener extends MessageListener implements EventListe
 
     @Override
     public Mono<Void> execute(MessageCreateEvent event) {
-        return processCommand(event.getMessage());
+        return messageCommandManager.processCommand(event.getMessage());
     }
 }
