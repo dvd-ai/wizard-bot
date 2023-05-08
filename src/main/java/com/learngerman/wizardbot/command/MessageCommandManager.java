@@ -2,7 +2,6 @@ package com.learngerman.wizardbot.command;
 
 import com.learngerman.wizardbot.event.MessageValidator;
 import discord4j.core.object.entity.Message;
-import discord4j.core.spec.MessageCreateMono;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -27,7 +26,9 @@ public class MessageCommandManager {
     }
 
 
-    private MessageCreateMono makeResponse(Message message) {
+
+    private Mono<Object> makeResponse(Message message) {
+
 
         String polishedContent = polishContent(message.getContent());
         String goal = defineCommandGoal(polishedContent);

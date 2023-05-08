@@ -1,12 +1,14 @@
 package com.learngerman.wizardbot.command;
 
 import discord4j.core.object.entity.Message;
-import discord4j.core.spec.MessageCreateMono;
+import reactor.core.publisher.Mono;
+
 
 public interface Command {
 
     String getDescription();
 
-    MessageCreateMono process(Message message, String goal);
+    Mono<Object> process(Message message, String goal);
+
 
 }
