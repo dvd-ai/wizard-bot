@@ -1,8 +1,10 @@
 package com.learngerman.wizardbot.command;
 
 import discord4j.core.object.entity.Message;
-import discord4j.core.spec.MessageCreateMono;
+import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
+@Component
 public class NonexistentCommand implements Command{
 
 
@@ -12,7 +14,7 @@ public class NonexistentCommand implements Command{
     }
 
     @Override
-    public MessageCreateMono process(Message message, String goal) {
+    public Mono<Object> process(Message message, String goal) {
         return null;
     }
 }
