@@ -17,8 +17,11 @@ dependencies {
 	runtimeOnly 'org.postgresql:postgresql'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 
+	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'com.discord4j:discord4j-core:3.3.0-M1'
 	implementation 'org.springframework.boot:spring-boot-starter-web:3.0.4'
+	implementation 'org.flywaydb:flyway-core:9.16.3'
+	implementation 'org.postgresql:postgresql:42.2.5'
 
 }
 
