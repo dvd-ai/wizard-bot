@@ -26,7 +26,9 @@ public class MessageCommandManager {
     }
 
 
+
     private Mono<Object> makeResponse(Message message) {
+
 
         String polishedContent = polishContent(message.getContent());
         String goal = defineCommandGoal(polishedContent);
