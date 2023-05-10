@@ -15,14 +15,17 @@ public class MessageCommandManager {
 
     private final HelpCommand helpCommand;
     private final CurrencyCommand currencyCommand;
+
+    private final AddCommand addCommand;
     private final NonexistentCommand nonexistentCommand;
 
     //error handler
     private final MessageValidator messageValidator;
 
-    public MessageCommandManager(HelpCommand helpCommand, CurrencyCommand currencyCommand, NonexistentCommand nonexistentCommand, MessageValidator messageValidator) {
+    public MessageCommandManager(HelpCommand helpCommand, CurrencyCommand currencyCommand, AddCommand addCommand, NonexistentCommand nonexistentCommand, MessageValidator messageValidator) {
         this.helpCommand = helpCommand;
         this.currencyCommand = currencyCommand;
+        this.addCommand = addCommand;
         this.nonexistentCommand = nonexistentCommand;
         this.messageValidator = messageValidator;
     }
@@ -47,6 +50,7 @@ public class MessageCommandManager {
             return switch (commandParts.get(0)) {
                 case "help" -> helpCommand.process(message, getNextCommandPartsToParse(commandParts));
                 case "currency" -> currencyCommand.process(message, getNextCommandPartsToParse(commandParts));
+                case "add" -> addCommand.process(message, getNextCommandPartsToParse(commandParts));
                 default -> nonexistentCommand.process(message, null);
             };
         } catch (RuntimeException e) {

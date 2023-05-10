@@ -7,21 +7,17 @@ import java.util.List;
 
 @Service
 public class StudentService {
-
-    private final float START_GOLD_CAPITAL = 25f;
     private final StudentRepository studentRepository;
 
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
-    public Long addStudent(Student student) {
-        student.setGoldBalance(START_GOLD_CAPITAL);
-        return studentRepository.addStudent(student);
+    public void addStudent(Student student) {
+        studentRepository.addStudent(student);
     }
 
     public int[] addStudents(List<Student> students) {
-        students.forEach(student -> student.setGoldBalance(START_GOLD_CAPITAL));
         return studentRepository.addStudents(students);
     }
 
@@ -51,5 +47,9 @@ public class StudentService {
 
     public void unfreezeStudentBalanceTillDefrostDate(Long studentDiscordId) {
         studentRepository.unfreezeStudentBalanceTillDefrostDate(studentDiscordId);
+    }
+
+    public float getStudentGoldCurrency(Long studentDiscordId) {
+        return studentRepository.getStudentGoldCurrency(studentDiscordId);
     }
 }
