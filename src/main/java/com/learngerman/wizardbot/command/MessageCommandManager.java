@@ -5,15 +5,24 @@ import discord4j.core.object.entity.Message;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+
+import java.util.List;
+
+import static com.learngerman.wizardbot.command.CommandUtils.*;
+
 @Component
 public class MessageCommandManager {
 
     private final HelpCommand helpCommand;
+    private final CurrencyCommand currencyCommand;
     private final NonexistentCommand nonexistentCommand;
+
+    //error handler
     private final MessageValidator messageValidator;
 
-    public MessageCommandManager(HelpCommand helpCommand, NonexistentCommand nonexistentCommand, MessageValidator messageValidator) {
+    public MessageCommandManager(HelpCommand helpCommand, CurrencyCommand currencyCommand, NonexistentCommand nonexistentCommand, MessageValidator messageValidator) {
         this.helpCommand = helpCommand;
+        this.currencyCommand = currencyCommand;
         this.nonexistentCommand = nonexistentCommand;
         this.messageValidator = messageValidator;
     }
@@ -22,6 +31,7 @@ public class MessageCommandManager {
         return Mono.just(eventMessage)
                 .filter(messageValidator::validate)
                 .flatMap(this::makeResponse)
+                .onErrorComplete()
                 .then();
     }
 
@@ -30,23 +40,20 @@ public class MessageCommandManager {
     private Mono<Object> makeResponse(Message message) {
 
 
-        String polishedContent = polishContent(message.getContent());
-        String goal = defineCommandGoal(polishedContent);
+        String polishedCommand = polishCommand(message.getContent());
+        List<String> commandParts = extractCommandParts(polishedCommand);
 
-        switch (goal) {
-            case "help":
-                return helpCommand.process(message, goal);
-            default:
-                return nonexistentCommand.process(message, null);
+        try {
+            return switch (commandParts.get(0)) {
+                case "help" -> helpCommand.process(message, getNextCommandPartsToParse(commandParts));
+                case "currency" -> currencyCommand.process(message, getNextCommandPartsToParse(commandParts));
+                default -> nonexistentCommand.process(message, null);
+            };
+        } catch (RuntimeException e) {
+            System.out.println("error occured");
+            //process error and return error message
+            return null;
         }
-    }
 
-    private String defineCommandGoal(String polishedContent) {
-        return polishedContent.split(" ")[0];
     }
-
-    private String polishContent(String content) {
-        return content.toLowerCase().replaceFirst(">", "");
-    }
-
 }
