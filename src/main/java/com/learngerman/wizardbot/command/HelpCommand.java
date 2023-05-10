@@ -8,6 +8,8 @@ import discord4j.rest.util.Color;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @Component
 public class HelpCommand implements Command {
 
@@ -33,12 +35,12 @@ public class HelpCommand implements Command {
                         .title("Help")
                         .description(getDescription())
                         .build()
-                ).build();
-
+                ).build()
+        ;
     }
 
     @Override
-    public Mono<Object> process(Message message, String goal) {
+    public Mono<Object> process(Message message, List<String> commandParts) {
 
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(getFormattedResponseMessage()));
