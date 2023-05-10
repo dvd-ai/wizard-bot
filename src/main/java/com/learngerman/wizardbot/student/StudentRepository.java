@@ -3,8 +3,6 @@ package com.learngerman.wizardbot.student;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -21,11 +19,12 @@ public class StudentRepository {
         this.jdbc = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public Long addStudent(Student student) {
-        KeyHolder keyHolder = new GeneratedKeyHolder();
+    public void addStudent(Student student) {
+        if (studentExistsByDiscordId(student.getDiscordId()))
+            return;
 
         String sql = "INSERT INTO students (d_uid, gold_balance, is_engaged, balance_defrost_date)" +
-                " VALUES (:d_uid, :gold_balance, is_engaged, balance_defrost_date)";
+                " VALUES (:d_uid, :gold_balance, :is_engaged, :balance_defrost_date)";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("d_uid", student.getDiscordId())
@@ -34,8 +33,7 @@ public class StudentRepository {
                 .addValue("balance_defrost_date", student.getBalanceDefrostDate())
         ;
 
-        jdbc.update(sql, sqlParameterSource, keyHolder);
-        return Long.valueOf((Integer)keyHolder.getKeys().get("d_uid"));
+        jdbc.update(sql, sqlParameterSource);
     }
 
     public int[] addStudents(List<Student> students) {
@@ -150,5 +148,17 @@ public class StudentRepository {
         ;
 
         jdbc.update(sql, sqlParameterSource);
+    }
+
+    public float getStudentGoldCurrency(Long studentDiscordId) {
+        if (!studentExistsByDiscordId(studentDiscordId))
+            throw new RuntimeException("no student with id: " + studentDiscordId);
+
+        String sql = "SELECT d_uid, gold_balance,  FROM students WHERE d_uid = :studentDiscordId";
+
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("studentDiscordId", studentDiscordId);
+
+        Student student = jdbc.queryForObject(sql, sqlParameterSource, new StudentRowMapper());
+        return student.getGoldBalance();
     }
 }
