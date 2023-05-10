@@ -5,12 +5,10 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+public interface Flag {
 
-public interface Command {
+    String getFlagDescription();
 
-    String getDescription();
-
-    Mono<Object> process(Message message, List<String> commandParts);
-
+    Mono<Object> process(Message message, List<String> parameters);
 
 }
