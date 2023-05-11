@@ -1,13 +1,8 @@
 package com.learngerman.wizardbot.util;
 
-import com.learngerman.wizardbot.command.MemberInfo;
-import discord4j.core.spec.EmbedCreateFields;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;
 import discord4j.rest.util.Color;
-import reactor.core.publisher.Mono;
-
-import java.time.Instant;
 
 public class ResponseMessageBuilder {
 
@@ -19,10 +14,10 @@ public class ResponseMessageBuilder {
                 .addEmbed(EmbedCreateSpec.builder()
                         .color(Color.VIVID_VIOLET)
                         .title(title)
-                        .description( description)
+                        .description(description)
                         .build()
                 ).build()
-        ;
+                ;
     }
 
     public static EmbedCreateSpec buildUserInfoMessage(String title, String description, String memberAvatarLink) {

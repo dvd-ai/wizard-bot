@@ -10,7 +10,8 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 import static com.learngerman.wizardbot.command.CommandUtils.getNextCommandPartsToParse;
-import static com.learngerman.wizardbot.command.MessageEventUtils.*;
+import static com.learngerman.wizardbot.command.MessageEventUtils.getMemberInfo;
+import static com.learngerman.wizardbot.command.MessageEventUtils.getMessageAuthorDiscordId;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 
 @Component
@@ -55,13 +56,13 @@ public class CurrencyCommand implements Command {
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(
                         constructResponseMemberInfoCurrency(goldCurrency, getMemberInfo(message)))
-        );
+                );
     }
 
-    private EmbedCreateSpec constructResponseMemberInfoCurrency(float goldCurrency, MemberInfo memberInfo ) {
+    private EmbedCreateSpec constructResponseMemberInfoCurrency(float goldCurrency, MemberInfo memberInfo) {
         return buildUserInfoMessage(
-                "Währungssaldo" ,
-                "@" +  memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() + " - " + goldCurrency + "🪙",
+                "Währungssaldo",
+                "@" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() + " - " + goldCurrency + "🪙",
                 memberInfo.getAvatar()
         );
     }

@@ -5,7 +5,6 @@ import discord4j.core.object.entity.Message;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
-
 import java.util.List;
 
 import static com.learngerman.wizardbot.command.CommandUtils.*;
@@ -37,7 +36,6 @@ public class MessageCommandManager {
                 .onErrorComplete()
                 .then();
     }
-
 
 
     private Mono<Object> makeResponse(Message message) {

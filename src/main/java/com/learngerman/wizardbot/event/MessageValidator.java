@@ -17,7 +17,7 @@ public class MessageValidator {
         return content.startsWith(">");
     }
 
-    private boolean checkAuthor(Optional<User> author)  {
+    private boolean checkAuthor(Optional<User> author) {
         return author.map(user -> !user.isBot())
                 .orElse(false);
     }

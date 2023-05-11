@@ -2,11 +2,8 @@ package com.learngerman.wizardbot.config;
 
 import com.learngerman.wizardbot.event.EventListener;
 import discord4j.core.DiscordClient;
-
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.Event;
-
-
 import discord4j.gateway.intent.IntentSet;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -30,7 +27,7 @@ public class BotConfiguration {
                 .login()
                 .block();
 
-        for(EventListener<T> listener : eventListeners) {
+        for (EventListener<T> listener : eventListeners) {
             client.on(listener.getEventType())
                     .flatMap(listener::execute)
                     .onErrorResume(listener::handleError)

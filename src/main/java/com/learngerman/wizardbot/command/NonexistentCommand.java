@@ -8,7 +8,7 @@ import java.util.List;
 
 @Component
 
-public class NonexistentCommand implements Command{
+public class NonexistentCommand implements Command {
 
 
     @Override

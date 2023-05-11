@@ -3,12 +3,8 @@ package com.learngerman.wizardbot.command.currency;
 import com.learngerman.wizardbot.command.Flag;
 import com.learngerman.wizardbot.command.NonexistentCommand;
 import com.learngerman.wizardbot.student.StudentService;
-
-
 import discord4j.core.object.entity.Message;
-
 import discord4j.core.spec.MessageCreateSpec;
-
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -56,7 +52,7 @@ public class CurrencyGrantFlag implements Flag {
                 .flatMap(messageChannel -> messageChannel.createMessage(
                         constructResponseGrantMessage(grantAmount))
                 )
-        ;
+                ;
 
     }
 

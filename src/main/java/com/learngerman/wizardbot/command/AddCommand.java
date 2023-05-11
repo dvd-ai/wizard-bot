@@ -13,7 +13,7 @@ import java.util.List;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUsualMessage;
 
 @Component
-public class AddCommand implements Command{
+public class AddCommand implements Command {
 
     private final float START_GOLD_CAPITAL = 25f;
     private final NonexistentCommand nonexistentCommand;
@@ -47,7 +47,7 @@ public class AddCommand implements Command{
                 .flatMap(messageChannel -> messageChannel.createMessage(
                         constructResponseAddNewStudentsMessage())
                 )
-        ;
+                ;
     }
 
     private MessageCreateSpec constructResponseAddNewStudentsMessage() {
@@ -69,7 +69,6 @@ public class AddCommand implements Command{
                         )
                 ).subscribe();
     }
-
 
 
 }

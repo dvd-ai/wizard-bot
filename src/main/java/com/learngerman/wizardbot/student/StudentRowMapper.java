@@ -10,9 +10,9 @@ public class StudentRowMapper implements RowMapper<Student> {
     @Override
     public Student mapRow(ResultSet rs, int rowNum) throws SQLException {
         return new Student(
-          rs.getLong("d_uid"),
-          rs.getFloat("gold_balance"),
-          rs.getBoolean("is_engaged"),
+                rs.getLong("d_uid"),
+                rs.getFloat("gold_balance"),
+                rs.getBoolean("is_engaged"),
                 (OffsetDateTime) rs.getObject("balance_defrost_date")
         );
     }

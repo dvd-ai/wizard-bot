@@ -30,8 +30,7 @@ public class StudentRepository {
                 .addValue("d_uid", student.getDiscordId())
                 .addValue("gold_balance", student.getGoldBalance())
                 .addValue("is_engaged", student.isEngaged())
-                .addValue("balance_defrost_date", student.getBalanceDefrostDate())
-        ;
+                .addValue("balance_defrost_date", student.getBalanceDefrostDate());
 
         jdbc.update(sql, sqlParameterSource);
     }
@@ -85,8 +84,7 @@ public class StudentRepository {
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("d_uid", studentDiscordId)
-                .addValue("gold_balance", goldAmount)
-        ;
+                .addValue("gold_balance", goldAmount);
 
         jdbc.update(sql, sqlParameterSource);
     }
@@ -100,8 +98,7 @@ public class StudentRepository {
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("d_uid", studentDiscordId)
-                .addValue("gold_balance", goldAmount)
-        ;
+                .addValue("gold_balance", goldAmount);
 
         jdbc.update(sql, sqlParameterSource);
     }
@@ -115,8 +112,7 @@ public class StudentRepository {
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("d_uid", studentDiscordId)
-                .addValue("gold_balance", isEngaged)
-        ;
+                .addValue("gold_balance", isEngaged);
 
         jdbc.update(sql, sqlParameterSource);
     }
@@ -130,8 +126,7 @@ public class StudentRepository {
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("d_uid", studentDiscordId)
-                .addValue("defrostDate", defrostDate)
-        ;
+                .addValue("defrostDate", defrostDate);
 
         jdbc.update(sql, sqlParameterSource);
     }
@@ -144,8 +139,7 @@ public class StudentRepository {
                 "WHERE d_uid = :studentDiscordId";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
-                .addValue("d_uid", studentDiscordId)
-        ;
+                .addValue("d_uid", studentDiscordId);
 
         jdbc.update(sql, sqlParameterSource);
     }
