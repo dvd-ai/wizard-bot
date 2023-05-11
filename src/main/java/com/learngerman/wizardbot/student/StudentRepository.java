@@ -154,7 +154,8 @@ public class StudentRepository {
         if (!studentExistsByDiscordId(studentDiscordId))
             throw new RuntimeException("no student with id: " + studentDiscordId);
 
-        String sql = "SELECT d_uid, gold_balance,  FROM students WHERE d_uid = :studentDiscordId";
+        String sql = "SELECT d_uid, gold_balance, is_engaged, balance_defrost_date" +
+                "  FROM students WHERE d_uid = :studentDiscordId";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("studentDiscordId", studentDiscordId);
 
