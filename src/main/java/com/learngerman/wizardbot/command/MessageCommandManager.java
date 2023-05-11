@@ -54,7 +54,7 @@ public class MessageCommandManager {
                 default -> nonexistentCommand.process(message, null);
             };
         } catch (RuntimeException e) {
-            System.out.println("error occured");
+            System.out.println(e.getMessage());
             //process error and return error message
             return null;
         }
