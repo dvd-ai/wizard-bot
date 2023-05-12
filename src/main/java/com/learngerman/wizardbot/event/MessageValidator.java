@@ -9,17 +9,16 @@ import java.util.Optional;
 @Component
 public class MessageValidator {
 
-    public boolean validate(Message message) {
-        return checkAuthor(message.getAuthor()) && startsWithBotPrefix(message.getContent());
+    public boolean isCommand(Message message) {
+        return !isBot(message.getAuthor()) && startsWithBotPrefix(message.getContent());
     }
 
     private boolean startsWithBotPrefix(String content) {
         return content.startsWith(">");
     }
 
-    private boolean checkAuthor(Optional<User> author) {
-        return author.map(user -> !user.isBot())
-                .orElse(false);
+    public boolean isBot(Optional<User> author) {
+        return author.get().isBot();
     }
 
 }

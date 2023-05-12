@@ -9,9 +9,11 @@ import reactor.core.publisher.Mono;
 public class MessageUpdateListener implements EventListener<MessageUpdateEvent> {
 
     private final MessageCommandManager messageCommandManager;
+    private final MessageValidator messageValidator;
 
-    public MessageUpdateListener(MessageCommandManager messageCommandManager) {
+    public MessageUpdateListener(MessageCommandManager messageCommandManager, MessageValidator messageValidator) {
         this.messageCommandManager = messageCommandManager;
+        this.messageValidator = messageValidator;
     }
 
     @Override
@@ -24,6 +26,8 @@ public class MessageUpdateListener implements EventListener<MessageUpdateEvent> 
         return Mono.just(event)
                 .filter(MessageUpdateEvent::isContentChanged)
                 .flatMap(MessageUpdateEvent::getMessage)
-                .flatMap(messageCommandManager::processCommand);
+                .filter(messageValidator::isCommand)
+                .flatMap(messageCommandManager::processCommand)
+        ;
     }
 }
