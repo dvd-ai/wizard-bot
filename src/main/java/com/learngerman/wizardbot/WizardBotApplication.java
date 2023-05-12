@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class WizardBotApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(WizardBotApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(WizardBotApplication.class, args);
+    }
 
 }

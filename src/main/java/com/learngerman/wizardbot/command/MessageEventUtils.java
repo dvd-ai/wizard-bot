@@ -1,16 +1,23 @@
 package com.learngerman.wizardbot.command;
 
-import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
-import reactor.core.publisher.Mono;
 
 public class MessageEventUtils {
 
     private MessageEventUtils() {
     }
 
-    public static Mono<Member> getGuildMember(Message message) {
-        return message.getAuthor().get().asMember(message.getGuildId().get());
+    public static MemberInfo getMemberInfo(Message message) {
+        MemberInfo memberInfo = new MemberInfo();
+
+        message.getAuthor().get().asMember(message.getGuildId().get())
+                .doOnNext(member -> {
+                    memberInfo.setAvatar(member.getAvatarUrl());
+                    memberInfo.setDiscriminator(member.getDiscriminator());
+                    memberInfo.setUsername(member.getUsername());
+                }).subscribe();
+
+        return memberInfo;
     }
 
     public static Long getMessageAuthorDiscordId(Message message) {

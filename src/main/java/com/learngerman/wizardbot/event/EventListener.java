@@ -10,6 +10,7 @@ public interface EventListener<T extends Event> {
     Logger LOG = LoggerFactory.getLogger(EventListener.class);
 
     Class<T> getEventType();
+
     Mono<Void> execute(T event);
 
     default Mono<Void> handleError(Throwable error) {

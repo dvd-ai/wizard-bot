@@ -4,20 +4,18 @@ import com.learngerman.wizardbot.command.currency.CurrencyGrantFlag;
 import com.learngerman.wizardbot.student.StudentService;
 import discord4j.core.object.entity.Message;
 import discord4j.core.spec.EmbedCreateSpec;
-import discord4j.core.spec.MessageCreateSpec;
-import discord4j.rest.util.Color;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 import static com.learngerman.wizardbot.command.CommandUtils.getNextCommandPartsToParse;
-import static com.learngerman.wizardbot.command.MessageEventUtils.getGuildMember;
+import static com.learngerman.wizardbot.command.MessageEventUtils.getMemberInfo;
 import static com.learngerman.wizardbot.command.MessageEventUtils.getMessageAuthorDiscordId;
-import static com.learngerman.wizardbot.command.Prefix.BOT_PREFIX;
+import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 
 @Component
-public class CurrencyCommand implements Command{
+public class CurrencyCommand implements Command {
 
     private final StudentService studentService;
     private final CurrencyGrantFlag grantFlag;
@@ -33,8 +31,8 @@ public class CurrencyCommand implements Command{
     @Override
     public String getDescription() {
         return """
-               **currency** - shows your current currency balance 🪙.
-                """;
+                **currency** - shows your current currency balance 🪙.
+                 """;
     }
 
     @Override
@@ -51,18 +49,21 @@ public class CurrencyCommand implements Command{
 
 
     private Mono<Object> processWithNoParametersOrFlags(Message message) {
+        Long authorDiscordId = getMessageAuthorDiscordId(message);
+        float goldCurrency = studentService.getStudentGoldCurrency(authorDiscordId);
+
+
         return message.getChannel()
-                .flatMap(messageChannel -> messageChannel.createMessage(getFormattedResponseMessage(message)));
+                .flatMap(messageChannel -> messageChannel.createMessage(
+                        constructResponseMemberInfoCurrency(goldCurrency, getMemberInfo(message)))
+                );
     }
 
-    public MessageCreateSpec getFormattedResponseMessage(Message message) {
-        return MessageCreateSpec.builder()
-                .addEmbed(EmbedCreateSpec.builder()
-                        .color(Color.VIVID_VIOLET)
-                        .title("Currency Balance of " + getGuildMember(message))
-                        .description( studentService.getStudentGoldCurrency(getMessageAuthorDiscordId(message)) + "🪙")
-                        .build()
-                ).build()
-        ;
+    private EmbedCreateSpec constructResponseMemberInfoCurrency(float goldCurrency, MemberInfo memberInfo) {
+        return buildUserInfoMessage(
+                "Währungssaldo",
+                "@" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() + " - " + goldCurrency + "🪙",
+                memberInfo.getAvatar()
+        );
     }
 }

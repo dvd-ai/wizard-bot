@@ -14,9 +14,31 @@ public class ResponseMessageBuilder {
                 .addEmbed(EmbedCreateSpec.builder()
                         .color(Color.VIVID_VIOLET)
                         .title(title)
-                        .description( description)
+                        .description(description)
                         .build()
                 ).build()
-        ;
+                ;
+    }
+
+    public static EmbedCreateSpec buildUserInfoMessage(String title, String description, String memberAvatarLink) {
+
+        return EmbedCreateSpec.builder()
+                .color(Color.VIVID_VIOLET)
+                .title(title)
+                .thumbnail(memberAvatarLink)
+                .description(description)
+                .build();
+
+
+//        return MessageCreateSpec.builder()
+//                .addEmbed(EmbedCreateSpec.builder()
+//                        .color(Color.VIVID_VIOLET)
+//                        .title(title)
+//                        .description( description)
+//                        .author(EmbedCreateFields.Author.of("@" + title, null, avatarLink))
+//                        .image(avatarLink)
+//                        .build()
+//                ).build()
+
     }
 }

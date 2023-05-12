@@ -1,7 +1,6 @@
 package com.learngerman.wizardbot.command;
 
 import discord4j.core.object.entity.Message;
-
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.core.spec.MessageCreateSpec;
 import discord4j.rest.util.Color;
@@ -17,14 +16,14 @@ public class HelpCommand implements Command {
     public String getDescription() {
         return
                 """
-                **I am a wizard that:**
-               
-                \t⭐ monitors member's activity and takes actions accordingly;
-                \t⭐ makes possible to play games with me;
-                \t⭐ makes possible to deal with your currency;
-                
-                """
-        ;
+                        **I am a wizard that:**
+                                       
+                        \t⭐ monitors member's activity and takes actions accordingly;
+                        \t⭐ makes possible to play games with me;
+                        \t⭐ makes possible to deal with your currency;
+                                        
+                        """
+                ;
     }
 
 
@@ -36,7 +35,7 @@ public class HelpCommand implements Command {
                         .description(getDescription())
                         .build()
                 ).build()
-        ;
+                ;
     }
 
     @Override
