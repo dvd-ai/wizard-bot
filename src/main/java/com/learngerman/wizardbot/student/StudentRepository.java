@@ -151,6 +151,7 @@ public class StudentRepository {
         String sql = "SELECT d_uid, gold_balance, is_engaged, balance_defrost_date" +
                 "  FROM students WHERE d_uid = :studentDiscordId";
 
+
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("studentDiscordId", studentDiscordId);
 
         Student student = jdbc.queryForObject(sql, sqlParameterSource, new StudentRowMapper());

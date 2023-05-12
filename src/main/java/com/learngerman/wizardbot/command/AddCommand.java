@@ -15,6 +15,7 @@ import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUsualMe
 @Component
 public class AddCommand implements Command {
 
+
     private final float START_GOLD_CAPITAL = 25f;
     private final NonexistentCommand nonexistentCommand;
     private final StudentService studentService;
@@ -47,7 +48,7 @@ public class AddCommand implements Command {
                 .flatMap(messageChannel -> messageChannel.createMessage(
                         constructResponseAddNewStudentsMessage())
                 )
-                ;
+        ;
     }
 
     private MessageCreateSpec constructResponseAddNewStudentsMessage() {
@@ -69,6 +70,4 @@ public class AddCommand implements Command {
                         )
                 ).subscribe();
     }
-
-
 }
