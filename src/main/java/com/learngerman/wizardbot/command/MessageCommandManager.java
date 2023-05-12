@@ -1,6 +1,5 @@
 package com.learngerman.wizardbot.command;
 
-import com.learngerman.wizardbot.event.MessageValidator;
 import discord4j.core.object.entity.Message;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -19,19 +18,16 @@ public class MessageCommandManager {
     private final NonexistentCommand nonexistentCommand;
 
     //error handler
-    private final MessageValidator messageValidator;
 
-    public MessageCommandManager(HelpCommand helpCommand, CurrencyCommand currencyCommand, AddCommand addCommand, NonexistentCommand nonexistentCommand, MessageValidator messageValidator) {
+    public MessageCommandManager(HelpCommand helpCommand, CurrencyCommand currencyCommand, AddCommand addCommand, NonexistentCommand nonexistentCommand) {
         this.helpCommand = helpCommand;
         this.currencyCommand = currencyCommand;
         this.addCommand = addCommand;
         this.nonexistentCommand = nonexistentCommand;
-        this.messageValidator = messageValidator;
     }
 
     public Mono<Void> processCommand(Message eventMessage) {
         return Mono.just(eventMessage)
-                .filter(messageValidator::validate)
                 .flatMap(this::makeResponse)
                 .onErrorComplete()
                 .then();
