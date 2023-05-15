@@ -2,7 +2,6 @@ package com.learngerman.wizardbot.command.currency;
 
 import com.learngerman.wizardbot.command.Flag;
 import com.learngerman.wizardbot.command.MemberInfo;
-
 import com.learngerman.wizardbot.student.StudentService;
 import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.Message;
@@ -44,7 +43,7 @@ public class CurrencyConfiscateFlag implements Flag {
         final boolean[] verified = new boolean[1];
 
         author.flatMap(PartialMember::getBasePermissions).doOnNext(
-            permissions -> verified[0] = permissions.contains(Permission.ADMINISTRATOR)
+                permissions -> verified[0] = permissions.contains(Permission.ADMINISTRATOR)
         ).subscribe();
 
         if (!verified[0])
@@ -62,7 +61,7 @@ public class CurrencyConfiscateFlag implements Flag {
                 .flatMap(messageChannel -> messageChannel.createMessage(
                         constructResponseConfiscateMessage(confiscateAmount, getMemberInfo(message)))
                 )
-        ;
+                ;
     }
 
     private EmbedCreateSpec constructResponseConfiscateMessage(float confiscateAmount, MemberInfo memberInfo) {

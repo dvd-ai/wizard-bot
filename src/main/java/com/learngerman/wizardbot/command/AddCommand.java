@@ -48,7 +48,7 @@ public class AddCommand implements Command {
                 .flatMap(messageChannel -> messageChannel.createMessage(
                         constructResponseAddNewStudentsMessage())
                 )
-        ;
+                ;
     }
 
     private MessageCreateSpec constructResponseAddNewStudentsMessage() {
