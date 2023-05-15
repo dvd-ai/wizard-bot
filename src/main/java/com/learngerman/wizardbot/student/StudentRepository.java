@@ -97,8 +97,8 @@ public class StudentRepository {
                 "WHERE d_uid = :studentDiscordId";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
-                .addValue("d_uid", studentDiscordId)
-                .addValue("gold_balance", goldAmount);
+                .addValue("studentDiscordId", studentDiscordId)
+                .addValue("goldAmount", goldAmount);
 
         jdbc.update(sql, sqlParameterSource);
     }
