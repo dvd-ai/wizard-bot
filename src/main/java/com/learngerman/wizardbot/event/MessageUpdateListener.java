@@ -28,6 +28,6 @@ public class MessageUpdateListener implements EventListener<MessageUpdateEvent> 
                 .flatMap(MessageUpdateEvent::getMessage)
                 .filter(messageValidator::isCommand)
                 .flatMap(messageCommandManager::processCommand)
-        ;
+                ;
     }
 }

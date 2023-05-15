@@ -8,8 +8,8 @@ import static com.learngerman.wizardbot.command.MessageEventUtils.getMessageAuth
 
 @Component
 public class SimpleMessageManager {
-        private final StudentService studentService;
-        private final float MESSAGE_REWARD = 0.5f;
+    private final StudentService studentService;
+    private final float MESSAGE_REWARD = 0.5f;
 
     public SimpleMessageManager(StudentService studentService) {
         this.studentService = studentService;
