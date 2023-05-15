@@ -23,4 +23,8 @@ public class MessageEventUtils {
     public static Long getMessageAuthorDiscordId(Message message) {
         return message.getAuthor().get().getId().asLong();
     }
+
+    public static String extractDiscordIdFromMention(String idWithMention) {
+        return idWithMention.replaceAll("[<>@]", "");
+    }
 }
