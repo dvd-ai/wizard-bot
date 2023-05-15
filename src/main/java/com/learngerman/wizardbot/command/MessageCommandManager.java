@@ -50,7 +50,7 @@ public class MessageCommandManager {
         } catch (RuntimeException e) {
             System.out.println(e.getMessage());
             //process error and return error message
-            return null;
+            return Mono.empty();
         }
 
     }
