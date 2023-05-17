@@ -1,10 +1,25 @@
 package com.learngerman.wizardbot.command;
 
 import discord4j.core.object.entity.Message;
+import discord4j.core.object.entity.PartialMember;
+import discord4j.rest.util.Permission;
+
 
 public class MessageEventUtils {
 
     private MessageEventUtils() {
+    }
+
+    public static void checkMessageAuthorPermissions(Message message) {
+        final boolean[] verified = new boolean[1];
+
+        message.getAuthorAsMember().flatMap(PartialMember::getBasePermissions).doOnNext(
+                permissions -> verified[0] = permissions.contains(Permission.ADMINISTRATOR)
+        ).subscribe();
+
+        if (!verified[0])
+            throw new RuntimeException("You doesn't have authorities to use this command!");
+
     }
 
     public static MemberInfo getMemberInfo(Message message) {
