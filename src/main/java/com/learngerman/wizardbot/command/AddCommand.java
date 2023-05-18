@@ -10,13 +10,11 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static com.learngerman.wizardbot.currency.GoldCurrency.GOLD_START_CAPITAL;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUsualMessage;
 
 @Component
 public class AddCommand implements Command {
-
-
-    private final float START_GOLD_CAPITAL = 25f;
     private final NonexistentCommand nonexistentCommand;
     private final StudentService studentService;
 
@@ -64,7 +62,7 @@ public class AddCommand implements Command {
                 .filter(member -> !member.isBot())
                 .doOnNext(member -> studentService.addStudent(
                                 new Student(
-                                        member.getId().asLong(), START_GOLD_CAPITAL,
+                                        member.getId().asLong(), GOLD_START_CAPITAL,
                                         false, null
                                 )
                         )
