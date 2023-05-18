@@ -44,7 +44,7 @@ public class CurrencyConfiscateFlag implements Flag {
 
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(
-                        constructResponseConfiscateMessage(confiscateAmount, getMemberInfo(message)))
+                        constructResponseConfiscateMessage(confiscateAmount, getMemberInfo(message, discordUserId)))
                 )
                 ;
     }
