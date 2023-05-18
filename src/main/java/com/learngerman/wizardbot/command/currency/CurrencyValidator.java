@@ -24,12 +24,19 @@ public class CurrencyValidator {
     }
 
     private void checkFormatOfParameters(String discordUserId, String goldAmount) {
+        checkDiscordId(discordUserId);
+        checkCurrencyFormat(goldAmount);
+    }
+
+    public void checkDiscordId (String discordUserId) {
         try {
             Long.valueOf(extractDiscordIdFromMention(discordUserId));
         } catch (NumberFormatException e) {
             throw new RuntimeException("There is no such a user.");
         }
+    }
 
+    public void checkCurrencyFormat(String goldAmount) {
         if (!isPositiveRealNumber(goldAmount)) {
             throw new RuntimeException("wrong number format: '" + goldAmount + "'");
         }

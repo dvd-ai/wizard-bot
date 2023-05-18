@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.command;
 
+import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.PartialMember;
 import discord4j.rest.util.Permission;
@@ -26,6 +27,20 @@ public class MessageEventUtils {
         MemberInfo memberInfo = new MemberInfo();
 
         message.getAuthor().get().asMember(message.getGuildId().get())
+                .doOnNext(member -> {
+                    memberInfo.setAvatar(member.getAvatarUrl());
+                    memberInfo.setDiscriminator(member.getDiscriminator());
+                    memberInfo.setUsername(member.getUsername());
+                }).subscribe();
+
+        return memberInfo;
+    }
+
+    public static MemberInfo getMemberInfo(Message message, Long discordId) {
+        MemberInfo memberInfo = new MemberInfo();
+        Snowflake memberId = Snowflake.of(discordId);
+
+        message.getGuild().flatMap(guild -> guild.getMemberById(memberId))
                 .doOnNext(member -> {
                     memberInfo.setAvatar(member.getAvatarUrl());
                     memberInfo.setDiscriminator(member.getDiscriminator());
