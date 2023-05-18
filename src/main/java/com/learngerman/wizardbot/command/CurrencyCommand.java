@@ -2,6 +2,7 @@ package com.learngerman.wizardbot.command;
 
 import com.learngerman.wizardbot.command.currency.CurrencyConfiscateFlag;
 import com.learngerman.wizardbot.command.currency.CurrencyGrantFlag;
+import com.learngerman.wizardbot.command.currency.CurrencyInfoFlag;
 import com.learngerman.wizardbot.student.StudentService;
 import discord4j.core.object.entity.Message;
 import discord4j.core.spec.EmbedCreateSpec;
@@ -23,11 +24,14 @@ public class CurrencyCommand implements Command {
     private final NonexistentCommand nonexistentCommand;
     private final CurrencyConfiscateFlag confiscateFlag;
 
-    public CurrencyCommand(StudentService studentService, CurrencyGrantFlag grantFlag, NonexistentCommand nonexistentCommand, CurrencyConfiscateFlag confiscateFlag) {
+    private final CurrencyInfoFlag infoFlag;
+
+    public CurrencyCommand(StudentService studentService, CurrencyGrantFlag grantFlag, NonexistentCommand nonexistentCommand, CurrencyConfiscateFlag confiscateFlag, CurrencyInfoFlag infoFlag) {
         this.studentService = studentService;
         this.grantFlag = grantFlag;
         this.nonexistentCommand = nonexistentCommand;
         this.confiscateFlag = confiscateFlag;
+        this.infoFlag = infoFlag;
     }
 
 
@@ -46,6 +50,7 @@ public class CurrencyCommand implements Command {
         return switch (flags.get(0)) {
             case "grant" -> grantFlag.process(message, getNextCommandPartsToParse(flags));
             case "confiscate" -> confiscateFlag.process(message, getNextCommandPartsToParse(flags));
+            case "info" -> infoFlag.process(message, getNextCommandPartsToParse(flags));
             default -> nonexistentCommand.process(message, null);
         };
 
