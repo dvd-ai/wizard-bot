@@ -57,7 +57,7 @@ public class CurrencyGrantFlag implements Flag {
 
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(
-                        constructResponseStudentGrantMessage(grantAmount, getMemberInfo(message)))
+                        constructResponseStudentGrantMessage(grantAmount, getMemberInfo(message, discordUserId)))
                 )
                 ;
     }
