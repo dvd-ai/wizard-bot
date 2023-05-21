@@ -57,4 +57,15 @@ public class MessageEventUtils {
     public static String extractDiscordIdFromMention(String idWithMention) {
         return idWithMention.replaceAll("[<>@]", "");
     }
+
+    public static String extractChannelIdFromMention(String channelIdWithMention) {
+        return channelIdWithMention.replaceAll("[<>#]", "");
+    }
+
+    public static boolean extractTrueFalseDefiner(String s) {
+        return switch (s) {
+            case "1" -> true;
+            default -> false;
+        };
+    }
 }
