@@ -10,7 +10,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.learngerman.wizardbot.currency.GoldCurrency.GOLD_VOICE_REWARD;
+import static com.learngerman.wizardbot.currency.GoldCurrency.GOLD_VOICE_REWARD_PER_SECOND;
 
 @Component
 public class VoiceChatManager {
@@ -45,6 +45,6 @@ public class VoiceChatManager {
 
     private void grantStudentGoldCurrency(Long userId) {
         Duration durationInVoiceChannel = Duration.between(joinTimes.get(userId), Instant.now());
-        studentService.increaseStudentGoldCurrencyBy(durationInVoiceChannel.getSeconds() * GOLD_VOICE_REWARD, userId);
+        studentService.increaseStudentGoldCurrencyBy(durationInVoiceChannel.getSeconds() * GOLD_VOICE_REWARD_PER_SECOND, userId);
     }
 }
