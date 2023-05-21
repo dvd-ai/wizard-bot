@@ -32,7 +32,7 @@ public class ChannelRepository {
     }
 
     public boolean channelExistsById(Long channelId) {
-        String sql = "SELECT COUNT(*) FROM channels WHERE c_uid = :channelId";
+        String sql = "SELECT COUNT(*) FROM channels WHERE c_id = :channelId";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("channelId", channelId);
         Integer count = jdbc.queryForObject(sql, sqlParameterSource, Integer.class);

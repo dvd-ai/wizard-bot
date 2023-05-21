@@ -23,6 +23,6 @@ public class CommandUtils {
     }
 
     public static List<String> extractCommandParts(String polishedContent) {
-        return Arrays.stream(polishedContent.split(" ")).toList();
+        return Arrays.stream(polishedContent.split("\\s+")).toList();
     }
 }

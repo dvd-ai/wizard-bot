@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.command;
 
+import com.learngerman.wizardbot.command.channel.ChannelSettingsCommand;
 import discord4j.core.object.entity.Message;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
@@ -13,15 +14,16 @@ public class MessageCommandManager {
 
     private final HelpCommand helpCommand;
     private final CurrencyCommand currencyCommand;
-
+    private final ChannelSettingsCommand channelSettingsCommand;
     private final AddCommand addCommand;
     private final NonexistentCommand nonexistentCommand;
 
     //error handler
 
-    public MessageCommandManager(HelpCommand helpCommand, CurrencyCommand currencyCommand, AddCommand addCommand, NonexistentCommand nonexistentCommand) {
+    public MessageCommandManager(HelpCommand helpCommand, CurrencyCommand currencyCommand, ChannelSettingsCommand channelSettingsCommand, AddCommand addCommand, NonexistentCommand nonexistentCommand) {
         this.helpCommand = helpCommand;
         this.currencyCommand = currencyCommand;
+        this.channelSettingsCommand = channelSettingsCommand;
         this.addCommand = addCommand;
         this.nonexistentCommand = nonexistentCommand;
     }
@@ -45,6 +47,7 @@ public class MessageCommandManager {
                 case "help" -> helpCommand.process(message, getNextCommandPartsToParse(commandParts));
                 case "currency" -> currencyCommand.process(message, getNextCommandPartsToParse(commandParts));
                 case "add" -> addCommand.process(message, getNextCommandPartsToParse(commandParts));
+                case "channel-settings" -> channelSettingsCommand.process(message, getNextCommandPartsToParse(commandParts));
                 default -> nonexistentCommand.process(message, null);
             };
         } catch (RuntimeException e) {
