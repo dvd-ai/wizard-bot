@@ -2,7 +2,7 @@ package com.learngerman.wizardbot.student;
 
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -41,7 +41,7 @@ public class StudentService {
         studentRepository.setStudentEngagement(isEngaged, studentDiscordId);
     }
 
-    public void freezeStudentBalanceTillDefrostDate(OffsetDateTime defrostDate, Long studentDiscordId) {
+    public void freezeStudentBalanceTillDefrostDate(LocalDate defrostDate, Long studentDiscordId) {
         studentRepository.freezeStudentBalanceTillDefrostDate(defrostDate, studentDiscordId);
     }
 
@@ -51,5 +51,9 @@ public class StudentService {
 
     public float getStudentGoldCurrency(Long studentDiscordId) {
         return studentRepository.getStudentGoldCurrency(studentDiscordId);
+    }
+
+    public LocalDate getStudentDefrostDate(Long studentDiscordId) {
+        return studentRepository.getStudentDefrostTime(studentDiscordId);
     }
 }
