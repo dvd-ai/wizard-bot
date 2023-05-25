@@ -14,21 +14,26 @@ import static com.learngerman.wizardbot.util.NumberUtil.isPositiveRealNumber;
 public class CurrencyValidator {
 
     public void checkUpdateParameters(List<String> parameters) {
-        checkArraySize(parameters);
+        checkArraySize(parameters, 2);
         checkFormatOfParameters(parameters.get(0), parameters.get(1));
     }
 
     public void checkFreezeParameters(List<String> parameters) {
-        checkArraySize(parameters);
+        checkArraySize(parameters, 2);
         checkDiscordId(parameters.get(0));
         checkDate(parameters.get(1));
     }
 
-    private void checkArraySize(List<String> parameters) {
+    public void checkUnfreezeParameters(List<String> parameters) {
+        checkArraySize(parameters, 1);
+        checkDiscordId(parameters.get(0));
+    }
+
+    private void checkArraySize(List<String> parameters, int lowestSizeBound) {
         if (parameters.isEmpty())
             throw new RuntimeException("parameters are empty");
 
-        if (parameters.size() < 2)
+        if (parameters.size() < lowestSizeBound)
             throw new RuntimeException("not enough amount of given parameters");
     }
 

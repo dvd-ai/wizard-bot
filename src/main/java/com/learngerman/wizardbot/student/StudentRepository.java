@@ -131,7 +131,7 @@ public class StudentRepository {
         jdbc.update(sql, sqlParameterSource);
     }
 
-    public void unfreezeStudentBalanceTillDefrostDate(Long studentDiscordId) {
+    public void unfreezeStudentBalance(Long studentDiscordId) {
         if (!studentExistsByDiscordId(studentDiscordId))
             throw new RuntimeException("no student with id: " + studentDiscordId);
 
