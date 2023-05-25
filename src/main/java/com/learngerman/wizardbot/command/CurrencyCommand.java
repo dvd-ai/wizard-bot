@@ -1,9 +1,6 @@
 package com.learngerman.wizardbot.command;
 
-import com.learngerman.wizardbot.command.currency.CurrencyConfiscateFlag;
-import com.learngerman.wizardbot.command.currency.CurrencyFreezeFlag;
-import com.learngerman.wizardbot.command.currency.CurrencyGrantFlag;
-import com.learngerman.wizardbot.command.currency.CurrencyInfoFlag;
+import com.learngerman.wizardbot.command.currency.*;
 import com.learngerman.wizardbot.student.StudentService;
 import discord4j.core.object.entity.Message;
 import discord4j.core.spec.EmbedCreateSpec;
@@ -25,15 +22,17 @@ public class CurrencyCommand implements Command {
     private final NonexistentCommand nonexistentCommand;
     private final CurrencyConfiscateFlag confiscateFlag;
     private final CurrencyFreezeFlag freezeFlag;
+    private final CurrencyUnfreezeFlag unfreezeFlag;
 
     private final CurrencyInfoFlag infoFlag;
 
-    public CurrencyCommand(StudentService studentService, CurrencyGrantFlag grantFlag, NonexistentCommand nonexistentCommand, CurrencyConfiscateFlag confiscateFlag, CurrencyFreezeFlag freezeFlag, CurrencyInfoFlag infoFlag) {
+    public CurrencyCommand(StudentService studentService, CurrencyGrantFlag grantFlag, NonexistentCommand nonexistentCommand, CurrencyConfiscateFlag confiscateFlag, CurrencyFreezeFlag freezeFlag, CurrencyUnfreezeFlag unfreezeFlag, CurrencyInfoFlag infoFlag) {
         this.studentService = studentService;
         this.grantFlag = grantFlag;
         this.nonexistentCommand = nonexistentCommand;
         this.confiscateFlag = confiscateFlag;
         this.freezeFlag = freezeFlag;
+        this.unfreezeFlag = unfreezeFlag;
         this.infoFlag = infoFlag;
     }
 
@@ -55,6 +54,7 @@ public class CurrencyCommand implements Command {
             case "confiscate" -> confiscateFlag.process(message, getNextCommandPartsToParse(flags));
             case "info" -> infoFlag.process(message, getNextCommandPartsToParse(flags));
             case "freeze" ->freezeFlag.process(message, getNextCommandPartsToParse(flags));
+            case "unfreeze" -> unfreezeFlag.process(message, getNextCommandPartsToParse(flags));
             default -> nonexistentCommand.process(message, null);
         };
 
