@@ -1,15 +1,15 @@
 package com.learngerman.wizardbot.student;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.Objects;
 
 public class Student {
     private Long discordId;
     private float goldBalance;
     private boolean isEngaged;
-    private OffsetDateTime balanceDefrostDate;
+    private LocalDate balanceDefrostDate;
 
-    public Student(Long discordId, float goldBalance, boolean isEngaged, OffsetDateTime balanceDefrostDate) {
+    public Student(Long discordId, float goldBalance, boolean isEngaged, LocalDate balanceDefrostDate) {
         this.discordId = discordId;
         this.goldBalance = goldBalance;
         this.isEngaged = isEngaged;
@@ -40,11 +40,11 @@ public class Student {
         isEngaged = engaged;
     }
 
-    public OffsetDateTime getBalanceDefrostDate() {
+    public LocalDate getBalanceDefrostDate() {
         return balanceDefrostDate;
     }
 
-    public void setBalanceDefrostDate(OffsetDateTime balanceDefrostDate) {
+    public void setBalanceDefrostDate(LocalDate balanceDefrostDate) {
         this.balanceDefrostDate = balanceDefrostDate;
     }
 
