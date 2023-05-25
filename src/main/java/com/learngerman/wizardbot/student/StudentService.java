@@ -45,8 +45,8 @@ public class StudentService {
         studentRepository.freezeStudentBalanceTillDefrostDate(defrostDate, studentDiscordId);
     }
 
-    public void unfreezeStudentBalanceTillDefrostDate(Long studentDiscordId) {
-        studentRepository.unfreezeStudentBalanceTillDefrostDate(studentDiscordId);
+    public void unfreezeStudentBalance(Long studentDiscordId) {
+        studentRepository.unfreezeStudentBalance(studentDiscordId);
     }
 
     public float getStudentGoldCurrency(Long studentDiscordId) {
