@@ -2,6 +2,9 @@ package com.learngerman.wizardbot.command.currency;
 
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import static com.learngerman.wizardbot.command.MessageEventUtils.extractDiscordIdFromMention;
@@ -13,6 +16,12 @@ public class CurrencyValidator {
     public void checkUpdateParameters(List<String> parameters) {
         checkArraySize(parameters);
         checkFormatOfParameters(parameters.get(0), parameters.get(1));
+    }
+
+    public void checkFreezeParameters(List<String> parameters) {
+        checkArraySize(parameters);
+        checkDiscordId(parameters.get(0));
+        checkDate(parameters.get(1));
     }
 
     private void checkArraySize(List<String> parameters) {
@@ -40,5 +49,24 @@ public class CurrencyValidator {
         if (!isPositiveRealNumber(goldAmount)) {
             throw new RuntimeException("wrong number format: '" + goldAmount + "'");
         }
+    }
+
+    public void checkDate(String date) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd.MM.yyyy");
+        LocalDate parsedDate;
+        LocalDate now = LocalDate.now();
+
+        try {
+            parsedDate = LocalDate.parse(date, formatter);
+        } catch (DateTimeParseException e) {
+            throw new RuntimeException("the date '" + date + "' doesn't follow the pattern: dd.MM.yyyy");
+        }
+
+        if (parsedDate.isBefore(now) || parsedDate.isEqual(now))
+            throw new RuntimeException("""
+                    The date you provided is in the past. Don't forget to set date,
+                    according to Berlin/Europe timezone"
+                    """
+            );
     }
 }

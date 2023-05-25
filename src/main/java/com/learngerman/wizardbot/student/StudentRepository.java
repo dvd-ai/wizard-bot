@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.time.OffsetDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -117,12 +117,12 @@ public class StudentRepository {
         jdbc.update(sql, sqlParameterSource);
     }
 
-    public void freezeStudentBalanceTillDefrostDate(OffsetDateTime defrostDate, Long studentDiscordId) {
+    public void freezeStudentBalanceTillDefrostDate(LocalDate defrostDate, Long studentDiscordId) {
         if (!studentExistsByDiscordId(studentDiscordId))
             throw new RuntimeException("no student with id: " + studentDiscordId);
 
         String sql = "UPDATE students SET balance_defrost_date = :defrostDate" +
-                "WHERE d_uid = :studentDiscordId";
+                " WHERE d_uid = :d_uid";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("d_uid", studentDiscordId)
@@ -136,7 +136,7 @@ public class StudentRepository {
             throw new RuntimeException("no student with id: " + studentDiscordId);
 
         String sql = "UPDATE students SET balance_defrost_date = NULL" +
-                "WHERE d_uid = :studentDiscordId";
+                " WHERE d_uid = :d_uid";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("d_uid", studentDiscordId);
@@ -156,5 +156,18 @@ public class StudentRepository {
 
         Student student = jdbc.queryForObject(sql, sqlParameterSource, new StudentRowMapper());
         return student.getGoldBalance();
+    }
+
+    public LocalDate getStudentDefrostTime(Long studentDiscordId) {
+        if (!studentExistsByDiscordId(studentDiscordId))
+            throw new RuntimeException("no student with id: " + studentDiscordId);
+
+        String sql = "SELECT d_uid, gold_balance, is_engaged, balance_defrost_date" +
+                "  FROM students WHERE d_uid = :studentDiscordId";
+
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("studentDiscordId", studentDiscordId);
+
+        Student student = jdbc.queryForObject(sql, sqlParameterSource, new StudentRowMapper());
+        return student.getBalanceDefrostDate();
     }
 }

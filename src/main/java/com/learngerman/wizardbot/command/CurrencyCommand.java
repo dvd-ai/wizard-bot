@@ -1,6 +1,7 @@
 package com.learngerman.wizardbot.command;
 
 import com.learngerman.wizardbot.command.currency.CurrencyConfiscateFlag;
+import com.learngerman.wizardbot.command.currency.CurrencyFreezeFlag;
 import com.learngerman.wizardbot.command.currency.CurrencyGrantFlag;
 import com.learngerman.wizardbot.command.currency.CurrencyInfoFlag;
 import com.learngerman.wizardbot.student.StudentService;
@@ -23,14 +24,16 @@ public class CurrencyCommand implements Command {
     private final CurrencyGrantFlag grantFlag;
     private final NonexistentCommand nonexistentCommand;
     private final CurrencyConfiscateFlag confiscateFlag;
+    private final CurrencyFreezeFlag freezeFlag;
 
     private final CurrencyInfoFlag infoFlag;
 
-    public CurrencyCommand(StudentService studentService, CurrencyGrantFlag grantFlag, NonexistentCommand nonexistentCommand, CurrencyConfiscateFlag confiscateFlag, CurrencyInfoFlag infoFlag) {
+    public CurrencyCommand(StudentService studentService, CurrencyGrantFlag grantFlag, NonexistentCommand nonexistentCommand, CurrencyConfiscateFlag confiscateFlag, CurrencyFreezeFlag freezeFlag, CurrencyInfoFlag infoFlag) {
         this.studentService = studentService;
         this.grantFlag = grantFlag;
         this.nonexistentCommand = nonexistentCommand;
         this.confiscateFlag = confiscateFlag;
+        this.freezeFlag = freezeFlag;
         this.infoFlag = infoFlag;
     }
 
@@ -51,6 +54,7 @@ public class CurrencyCommand implements Command {
             case "grant" -> grantFlag.process(message, getNextCommandPartsToParse(flags));
             case "confiscate" -> confiscateFlag.process(message, getNextCommandPartsToParse(flags));
             case "info" -> infoFlag.process(message, getNextCommandPartsToParse(flags));
+            case "freeze" ->freezeFlag.process(message, getNextCommandPartsToParse(flags));
             default -> nonexistentCommand.process(message, null);
         };
 
