@@ -4,7 +4,6 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.time.OffsetDateTime;
 
 public class StudentRowMapper implements RowMapper<Student> {
     @Override
@@ -13,7 +12,7 @@ public class StudentRowMapper implements RowMapper<Student> {
                 rs.getLong("d_uid"),
                 rs.getFloat("gold_balance"),
                 rs.getBoolean("is_engaged"),
-                (OffsetDateTime) rs.getObject("balance_defrost_date")
+                rs.getDate("balance_defrost_date").toLocalDate()
         );
     }
 }
