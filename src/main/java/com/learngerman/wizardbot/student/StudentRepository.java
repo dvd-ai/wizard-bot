@@ -158,7 +158,7 @@ public class StudentRepository {
         return student.getGoldBalance();
     }
 
-    public LocalDate getStudentDefrostTime(Long studentDiscordId) {
+    public LocalDate getStudentDefrostDate(Long studentDiscordId) {
         if (!studentExistsByDiscordId(studentDiscordId))
             throw new RuntimeException("no student with id: " + studentDiscordId);
 
