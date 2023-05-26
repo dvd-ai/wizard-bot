@@ -53,7 +53,7 @@ public class CurrencyGrantFlag implements Flag {
 
         Long discordUserId = Long.valueOf(extractDiscordIdFromMention(parameters.get(0)));
         float grantAmount = Float.parseFloat(parameters.get(1));
-        studentService.increaseStudentGoldCurrencyBy(grantAmount, discordUserId);
+        studentService.grantStudentGoldCurrencyByDiscordId(grantAmount, discordUserId);
 
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(
@@ -76,7 +76,7 @@ public class CurrencyGrantFlag implements Flag {
             return nonexistentCommand.process(message, null);
 
         float grantAmount = Float.parseFloat(parameters.get(0));
-        studentService.increaseStudentsGoldCurrencyBy(grantAmount);
+        studentService.grantAllStudentsGoldCurrency(grantAmount);
 
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(
