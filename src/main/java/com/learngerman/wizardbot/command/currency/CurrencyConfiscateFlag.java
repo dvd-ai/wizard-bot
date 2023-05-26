@@ -40,7 +40,7 @@ public class CurrencyConfiscateFlag implements Flag {
         Long discordUserId = Long.valueOf(extractDiscordIdFromMention(parameters.get(0)));
         float confiscateAmount = Float.parseFloat(parameters.get(1));
 
-        studentService.decreaseStudentGoldCurrencyByDiscordId(confiscateAmount, discordUserId);
+        studentService.confiscateStudentGoldCurrencyByDiscordId(confiscateAmount, discordUserId);
 
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(

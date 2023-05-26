@@ -26,7 +26,7 @@ public class SimpleMessageManager {
             int wordAmount = calculateWords(message.getContent());
             studentService.increaseStudentGoldCurrencyBy(wordAmount * GOLD_MESSAGE_REWARD_PER_WORD, getMessageAuthorDiscordId(message));
         } catch (RuntimeException e) {
-
+            //action
         }
     }
 
@@ -39,9 +39,14 @@ public class SimpleMessageManager {
     }
 
     private boolean isMessageFromIgnoredChannel(Message message) {
-        Channel usedChannel = channelService.getChannelById(message.getChannelId().asLong());
+        Channel usedChannel;
+
+        try {
+            usedChannel = channelService.getChannelById(message.getChannelId().asLong());
+        } catch (RuntimeException e) {
+            return false;
+        }
+
         return usedChannel.isIgnoredForCurrencyOperations();
     }
-
-
 }

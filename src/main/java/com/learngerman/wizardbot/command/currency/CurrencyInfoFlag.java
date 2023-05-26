@@ -59,7 +59,7 @@ public class CurrencyInfoFlag implements Flag {
     private EmbedCreateSpec constructResponseMemberInfoCurrency(float goldCurrency, MemberInfo memberInfo) {
         return buildUserInfoMessage(
                 "Währungssaldo",
-                "@" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() + " - " + goldCurrency + "🪙",
+                "@" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() + " - " + String.format("%.2f", goldCurrency) + "🪙",
                 memberInfo.getAvatar()
         );
     }
