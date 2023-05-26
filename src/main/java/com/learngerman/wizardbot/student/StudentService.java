@@ -21,20 +21,30 @@ public class StudentService {
         return studentRepository.addStudents(students);
     }
 
-    public int[] increaseStudentsGoldCurrencyBy(float goldAmount) {
+    public int[] grantAllStudentsGoldCurrency(float goldAmount) {
         return studentRepository.increaseStudentsGoldCurrencyBy(goldAmount);
     }
 
-    public int[] decreaseStudentsGoldCurrencyBy(float goldAmount) {
+    public int[] confiscateAllStudentsGoldCurrency(float goldAmount) {
         return studentRepository.decreaseStudentsGoldCurrencyBy(goldAmount);
     }
 
     public void increaseStudentGoldCurrencyBy(float goldAmount, Long studentDiscordId) {
-        studentRepository.increaseStudentGoldCurrencyByDiscordId(goldAmount, studentDiscordId);
+        if (getStudentDefrostDate(studentDiscordId) == null)
+            studentRepository.increaseStudentGoldCurrencyByDiscordId(goldAmount, studentDiscordId);
     }
 
     public void decreaseStudentGoldCurrencyByDiscordId(float goldAmount, Long studentDiscordId) {
+        if (getStudentDefrostDate(studentDiscordId) == null)
+            studentRepository.decreaseStudentGoldCurrencyByDiscordId(goldAmount, studentDiscordId);
+    }
+
+    public void confiscateStudentGoldCurrencyByDiscordId(float goldAmount, Long studentDiscordId) {
         studentRepository.decreaseStudentGoldCurrencyByDiscordId(goldAmount, studentDiscordId);
+    }
+
+    public void grantStudentGoldCurrencyByDiscordId(float goldAmount, Long studentDiscordId) {
+        studentRepository.increaseStudentGoldCurrencyByDiscordId(goldAmount, studentDiscordId);
     }
 
     public void setStudentEngagement(boolean isEngaged, Long studentDiscordId) {
@@ -54,6 +64,6 @@ public class StudentService {
     }
 
     public LocalDate getStudentDefrostDate(Long studentDiscordId) {
-        return studentRepository.getStudentDefrostTime(studentDiscordId);
+        return studentRepository.getStudentDefrostDate(studentDiscordId);
     }
 }
