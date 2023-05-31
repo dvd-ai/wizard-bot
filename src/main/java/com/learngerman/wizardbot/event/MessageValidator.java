@@ -17,7 +17,7 @@ public class MessageValidator {
         return content.startsWith(">");
     }
 
-    public boolean doesNotHaveAuthor(Message message) {
+    public boolean hasAuthor(Message message) {
         return message.getAuthor().isEmpty();
     }
 
