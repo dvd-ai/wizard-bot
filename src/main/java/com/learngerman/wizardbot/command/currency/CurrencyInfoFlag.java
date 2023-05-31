@@ -11,7 +11,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static com.learngerman.wizardbot.command.MessageEventUtils.*;
+import static com.learngerman.wizardbot.command.MessageEventUtils.extractDiscordIdFromMention;
+import static com.learngerman.wizardbot.command.MessageEventUtils.getMemberInfo;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 
 @Component
@@ -38,9 +39,7 @@ public class CurrencyInfoFlag implements Flag {
         if (parameters.isEmpty())
             return nonexistentCommand.process(message, null);
 
-        return switch (parameters.get(0)) {
-            default -> processSpecifiedStudent(message, parameters);
-        };
+        return processSpecifiedStudent(message, parameters);
     }
 
     private Mono<Object> processSpecifiedStudent(Message message, List<String> parameters) {

@@ -47,7 +47,8 @@ public class MessageCommandManager {
                 case "help" -> helpCommand.process(message, getNextCommandPartsToParse(commandParts));
                 case "currency" -> currencyCommand.process(message, getNextCommandPartsToParse(commandParts));
                 case "add" -> addCommand.process(message, getNextCommandPartsToParse(commandParts));
-                case "channel-settings" -> channelSettingsCommand.process(message, getNextCommandPartsToParse(commandParts));
+                case "channel-settings" ->
+                        channelSettingsCommand.process(message, getNextCommandPartsToParse(commandParts));
                 default -> nonexistentCommand.process(message, null);
             };
         } catch (RuntimeException e) {

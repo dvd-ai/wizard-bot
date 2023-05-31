@@ -176,20 +176,19 @@ public class StudentRepository {
         return student.getGoldBalance();
     }
 
-    public List<Long>getStudentIdsWithNoCurrency(int page, int size) {
+    public List<Long> getStudentIdsWithNoCurrency(int page, int size) {
         String sql =
                 "SELECT d_uid FROM students " +
-                "WHERE gold_balance <= 0 AND balance_defrost_date IS NULL " +
-                "ORDER BY d_uid " +
-                "LIMIT :size " +
-                "OFFSET :offset "
-        ;
+                        "WHERE gold_balance <= 0 AND balance_defrost_date IS NULL " +
+                        "ORDER BY d_uid " +
+                        "LIMIT :size " +
+                        "OFFSET :offset ";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("size", size)
                 .addValue("offset", size * page);
 
-     return jdbc.query(sql, sqlParameterSource, (rs, rowNum) -> rs.getLong("d_uid"));
+        return jdbc.query(sql, sqlParameterSource, (rs, rowNum) -> rs.getLong("d_uid"));
     }
 
     public LocalDate getStudentDefrostDate(Long studentDiscordId) {

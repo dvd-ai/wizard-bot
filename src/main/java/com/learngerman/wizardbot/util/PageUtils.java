@@ -34,7 +34,7 @@ public class PageUtils {
     }
 
     public static Mono<Message> createPagedMessage(Snowflake channelId, String content, String title,
-                                             int pageToShow, int totalPageAmount, GatewayDiscordClient client) {
+                                                   int pageToShow, int totalPageAmount, GatewayDiscordClient client) {
         return client.getChannelById(channelId).ofType(MessageChannel.class)
                 .flatMap(textChannel ->
                         textChannel.createMessage(

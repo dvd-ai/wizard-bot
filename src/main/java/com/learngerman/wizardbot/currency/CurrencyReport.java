@@ -47,13 +47,13 @@ public class CurrencyReport {
         if (channelsForReport.isEmpty())
             return;
         //i have to test scenario when someone leaves the guild (before the report)
-        List<Long>studentIdsWithNoCurrency = studentService.getStudentIdsWithNoCurrency(0, PAGE_SIZE);
+        List<Long> studentIdsWithNoCurrency = studentService.getStudentIdsWithNoCurrency(0, PAGE_SIZE);
         sendReportsToChannels(channelsForReport, studentIdsWithNoCurrency);
     }
 
 
-    private void sendReportsToChannels(List<Channel> channelsForReport, List<Long>studentIdsWithNoCurrency) {
-        for (Channel channel: channelsForReport) {
+    private void sendReportsToChannels(List<Channel> channelsForReport, List<Long> studentIdsWithNoCurrency) {
+        for (Channel channel : channelsForReport) {
             Snowflake channelId = Snowflake.of(channel.getChannelId());
             Mono<Guild> guildMono = getGuildMono(channelId, client);
 
@@ -74,7 +74,7 @@ public class CurrencyReport {
             totalPageAmount[0] = (int) Math.ceil((double) studentAmountWithNoCurrency / PAGE_SIZE);
             String reportContent = formatReportDescription(studentInfoList, 0);
 
-            return createPagedMessage(channelId, reportContent, getTitle(), 1, totalPageAmount[0],  client);
+            return createPagedMessage(channelId, reportContent, getTitle(), 1, totalPageAmount[0], client);
         }).subscribe(message -> handleButtonClicks(message, guildMono, totalPageAmount[0]).subscribe());
     }
 
@@ -87,7 +87,7 @@ public class CurrencyReport {
     private Mono<Void> processButtonInteractionEvent(ButtonInteractionEvent event, Mono<Guild> guildMono,
                                                      Message reportMessage, int totalPageAmount) {
         int pageToShow = getPageNumberToShowNext(event);
-        List<Long>studentIdsWithNoCurrency = studentService.getStudentIdsWithNoCurrency(pageToShow - 1, PAGE_SIZE);
+        List<Long> studentIdsWithNoCurrency = studentService.getStudentIdsWithNoCurrency(pageToShow - 1, PAGE_SIZE);
         Mono<List<MemberInfo>> memberInfosMono = getStudentsInfosMono(studentIdsWithNoCurrency, guildMono);
 
         return memberInfosMono

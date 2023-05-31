@@ -34,12 +34,12 @@ public class ResponseMessageBuilder {
 
     public static EmbedCreateSpec buildUsersInfoMessage(String title, String description, String pageNumber) {
         return EmbedCreateSpec.builder()
-                        .color(Color.VIVID_VIOLET)
-                        .title(title)
-                        .description(description)
-                        .build()
-                        .withFooter(EmbedCreateFields.Footer.of(pageNumber, null))
-        ;
+                .color(Color.VIVID_VIOLET)
+                .title(title)
+                .description(description)
+                .build()
+                .withFooter(EmbedCreateFields.Footer.of(pageNumber, null))
+                ;
 
     }
 }

@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
-public class MemberJoinEventListener implements EventListener<MemberJoinEvent>{
+public class MemberJoinEventListener implements EventListener<MemberJoinEvent> {
     private final MemberJoinManager memberJoinManager;
 
     public MemberJoinEventListener(MemberJoinManager memberJoinManager) {

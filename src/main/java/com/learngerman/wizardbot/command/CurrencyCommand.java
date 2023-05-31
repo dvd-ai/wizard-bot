@@ -53,7 +53,7 @@ public class CurrencyCommand implements Command {
             case "grant" -> grantFlag.process(message, getNextCommandPartsToParse(flags));
             case "confiscate" -> confiscateFlag.process(message, getNextCommandPartsToParse(flags));
             case "info" -> infoFlag.process(message, getNextCommandPartsToParse(flags));
-            case "freeze" ->freezeFlag.process(message, getNextCommandPartsToParse(flags));
+            case "freeze" -> freezeFlag.process(message, getNextCommandPartsToParse(flags));
             case "unfreeze" -> unfreezeFlag.process(message, getNextCommandPartsToParse(flags));
             default -> nonexistentCommand.process(message, null);
         };

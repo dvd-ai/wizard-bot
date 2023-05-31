@@ -22,7 +22,7 @@ public class VoiceChatManager {
         this.studentService = studentService;
     }
 
-    public void process(VoiceStateUpdateEvent voiceEvent ) {
+    public void process(VoiceStateUpdateEvent voiceEvent) {
         VoiceState currentVoiceState = voiceEvent.getCurrent();
         Long userId = currentVoiceState.getUserId().asLong();
 

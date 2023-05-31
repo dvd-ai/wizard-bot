@@ -16,7 +16,7 @@ public class GuildUtil {
     private GuildUtil() {
     }
 
-    public static Mono<List<MemberInfo>> getStudentsInfosMono(List<Long> studentIds, Mono<Guild>guildMono) {
+    public static Mono<List<MemberInfo>> getStudentsInfosMono(List<Long> studentIds, Mono<Guild> guildMono) {
         return Flux.fromIterable(studentIds)
                 .map(Snowflake::of)
                 .flatMap(snowflake -> guildMono.flatMap(guild -> guild.getMemberById(snowflake)))
