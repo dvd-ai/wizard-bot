@@ -16,6 +16,7 @@ import java.util.List;
 import static com.learngerman.wizardbot.command.MessageEventUtils.extractChannelIdFromMention;
 import static com.learngerman.wizardbot.command.MessageEventUtils.extractTrueFalseDefiner;
 
+
 @Component
 public class ChannelSettingsReportFlag implements Flag {
 
@@ -46,6 +47,7 @@ public class ChannelSettingsReportFlag implements Flag {
                         constructResponseMessage())
                 )
                 ;
+
     }
 
     public MessageCreateSpec constructResponseMessage() {

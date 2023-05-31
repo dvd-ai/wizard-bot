@@ -27,6 +27,7 @@ public class ChannelRepository {
                 .addValue("is_for_report", channel.isForReport())
                 .addValue("is_ignored_for_currency_operations", channel.isIgnoredForCurrencyOperations());
 
+
         jdbc.update(sql, sqlParameterSource);
     }
 
@@ -58,6 +59,7 @@ public class ChannelRepository {
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("is_for_report", isForReport)
                 .addValue("channelId", channelId);
+
 
         jdbc.update(sql, sqlParameterSource);
     }

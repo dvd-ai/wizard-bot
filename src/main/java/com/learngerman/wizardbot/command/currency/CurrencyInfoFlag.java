@@ -59,6 +59,7 @@ public class CurrencyInfoFlag implements Flag {
         return buildUserInfoMessage(
                 "Währungssaldo",
                 "@" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() + "\n" + String.format("%.2f", goldCurrency) + " 🪙",
+
                 memberInfo.getAvatar()
         );
     }

@@ -42,7 +42,7 @@ public class StudentService {
     public void decreaseAllStudentsGoldCurrencyBy(float goldAmount) {
         studentRepository.decreaseUnfreezedStudentsGoldCurrencyBy(goldAmount);
     }
-
+  
     public void confiscateStudentGoldCurrencyByDiscordId(float goldAmount, Long studentDiscordId) {
         studentRepository.decreaseStudentGoldCurrencyByDiscordId(goldAmount, studentDiscordId);
     }

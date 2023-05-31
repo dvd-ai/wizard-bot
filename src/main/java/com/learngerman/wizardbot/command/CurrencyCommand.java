@@ -76,6 +76,7 @@ public class CurrencyCommand implements Command {
         return buildUserInfoMessage(
                 "Währungssaldo",
                 "@" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() + "\n" + String.format("%.2f", goldCurrency) + " 🪙",
+
                 memberInfo.getAvatar()
         );
     }

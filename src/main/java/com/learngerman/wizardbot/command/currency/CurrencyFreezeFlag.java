@@ -51,6 +51,7 @@ public class CurrencyFreezeFlag implements Flag {
                 .flatMap(messageChannel -> messageChannel.createMessage(
                                 constructResponseFreezeMessage(studentService.getStudentDefrostDate(discordUserId),
                                         getMemberInfo(message, discordUserId))
+
                         )
                 )
                 ;

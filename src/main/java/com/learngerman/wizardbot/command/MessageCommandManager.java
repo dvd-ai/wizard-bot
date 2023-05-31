@@ -49,6 +49,7 @@ public class MessageCommandManager {
                 case "add" -> addCommand.process(message, getNextCommandPartsToParse(commandParts));
                 case "channel-settings" ->
                         channelSettingsCommand.process(message, getNextCommandPartsToParse(commandParts));
+
                 default -> nonexistentCommand.process(message, null);
             };
         } catch (RuntimeException e) {

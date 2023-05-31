@@ -11,6 +11,7 @@ import static com.learngerman.wizardbot.command.MessageEventUtils.extractChannel
 public class ChannelValidator {
 
     public void validate(List<String> parameters) {
+
         checkTrueFalseDefiner(parameters.get(parameters.size() - 1));
         checkChannels(parameters);
     }
@@ -28,6 +29,7 @@ public class ChannelValidator {
     }
 
     public void checkChannelId(String channelId) {
+
         try {
             Long.valueOf(channelId);
         } catch (NumberFormatException e) {
