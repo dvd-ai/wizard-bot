@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -59,6 +60,16 @@ public class StudentRepository {
 
     public int[] decreaseStudentsGoldCurrencyBy(float goldAmount) {
         String sql = "UPDATE students SET gold_balance = gold_balance - :goldAmount";
+
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource("goldAmount", goldAmount);
+        SqlParameterSource[] sqlParameterSourceArray = new SqlParameterSource[]{sqlParameterSource};
+
+        return jdbc.batchUpdate(sql, sqlParameterSourceArray);
+    }
+
+    public int[] decreaseUnfreezedStudentsGoldCurrencyBy(float goldAmount) {
+        String sql = "UPDATE students SET gold_balance = gold_balance - :goldAmount" +
+                " WHERE balance_defrost_date IS NULL";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource("goldAmount", goldAmount);
         SqlParameterSource[] sqlParameterSourceArray = new SqlParameterSource[]{sqlParameterSource};
@@ -135,13 +146,20 @@ public class StudentRepository {
         if (!studentExistsByDiscordId(studentDiscordId))
             throw new RuntimeException("no student with id: " + studentDiscordId);
 
-        String sql = "UPDATE students SET balance_defrost_date = NULL" +
+        String sql = "UPDATE students SET balance_defrost_date IS NULL" +
                 " WHERE d_uid = :d_uid";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
                 .addValue("d_uid", studentDiscordId);
 
         jdbc.update(sql, sqlParameterSource);
+    }
+
+    public void updateFreezeStatus() {
+        String sql = "UPDATE students " +
+                "    SET balance_defrost_date = NULL " +
+                "    WHERE balance_defrost_date = CURRENT_DATE AT TIME ZONE 'Europe/Berlin'";
+        jdbc.update(sql, new HashMap<>());
     }
 
     public float getStudentGoldCurrency(Long studentDiscordId) {
@@ -158,6 +176,22 @@ public class StudentRepository {
         return student.getGoldBalance();
     }
 
+    public List<Long>getStudentIdsWithNoCurrency(int page, int size) {
+        String sql =
+                "SELECT d_uid FROM students " +
+                "WHERE gold_balance <= 0 AND balance_defrost_date IS NULL " +
+                "ORDER BY d_uid " +
+                "LIMIT :size " +
+                "OFFSET :offset "
+        ;
+
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+                .addValue("size", size)
+                .addValue("offset", size * page);
+
+     return jdbc.query(sql, sqlParameterSource, (rs, rowNum) -> rs.getLong("d_uid"));
+    }
+
     public LocalDate getStudentDefrostDate(Long studentDiscordId) {
         if (!studentExistsByDiscordId(studentDiscordId))
             throw new RuntimeException("no student with id: " + studentDiscordId);
@@ -170,4 +204,13 @@ public class StudentRepository {
         Student student = jdbc.queryForObject(sql, sqlParameterSource, new StudentRowMapper());
         return student.getBalanceDefrostDate();
     }
+
+    public Integer calculateStudentsWithZeroOrLessCurrency() {
+        String sql = "SELECT count(*) " +
+                "  FROM students WHERE balance_defrost_date IS NULL AND gold_balance <= 0";
+
+        return jdbc.queryForObject(sql, new HashMap<>(), Integer.class);
+    }
+
+
 }
