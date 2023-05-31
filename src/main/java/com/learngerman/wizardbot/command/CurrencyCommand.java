@@ -53,7 +53,7 @@ public class CurrencyCommand implements Command {
             case "grant" -> grantFlag.process(message, getNextCommandPartsToParse(flags));
             case "confiscate" -> confiscateFlag.process(message, getNextCommandPartsToParse(flags));
             case "info" -> infoFlag.process(message, getNextCommandPartsToParse(flags));
-            case "freeze" ->freezeFlag.process(message, getNextCommandPartsToParse(flags));
+            case "freeze" -> freezeFlag.process(message, getNextCommandPartsToParse(flags));
             case "unfreeze" -> unfreezeFlag.process(message, getNextCommandPartsToParse(flags));
             default -> nonexistentCommand.process(message, null);
         };
@@ -75,7 +75,8 @@ public class CurrencyCommand implements Command {
     private EmbedCreateSpec constructResponseMemberInfoCurrency(float goldCurrency, MemberInfo memberInfo) {
         return buildUserInfoMessage(
                 "Währungssaldo",
-                "@" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() + " - " + String.format("%.2f", goldCurrency) + "🪙",
+                "@" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() + "\n" + String.format("%.2f", goldCurrency) + " 🪙",
+
                 memberInfo.getAvatar()
         );
     }

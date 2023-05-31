@@ -39,6 +39,10 @@ public class StudentService {
             studentRepository.decreaseStudentGoldCurrencyByDiscordId(goldAmount, studentDiscordId);
     }
 
+    public void decreaseAllStudentsGoldCurrencyBy(float goldAmount) {
+        studentRepository.decreaseUnfreezedStudentsGoldCurrencyBy(goldAmount);
+    }
+  
     public void confiscateStudentGoldCurrencyByDiscordId(float goldAmount, Long studentDiscordId) {
         studentRepository.decreaseStudentGoldCurrencyByDiscordId(goldAmount, studentDiscordId);
     }
@@ -65,5 +69,17 @@ public class StudentService {
 
     public LocalDate getStudentDefrostDate(Long studentDiscordId) {
         return studentRepository.getStudentDefrostDate(studentDiscordId);
+    }
+
+    public void updateFreezeStatus() {
+        studentRepository.updateFreezeStatus();
+    }
+
+    public List<Long> getStudentIdsWithNoCurrency(int page, int size) {
+        return studentRepository.getStudentIdsWithNoCurrency(page, size);
+    }
+
+    public Integer calculateStudentsWithZeroOrLessCurrency() {
+        return studentRepository.calculateStudentsWithZeroOrLessCurrency();
     }
 }

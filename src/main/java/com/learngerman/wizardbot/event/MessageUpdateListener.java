@@ -27,6 +27,7 @@ public class MessageUpdateListener implements EventListener<MessageUpdateEvent> 
                 .filter(MessageUpdateEvent::isContentChanged)
                 .flatMap(MessageUpdateEvent::getMessage)
                 .filter(messageValidator::isCommand)
+                .filter(messageValidator::hasAuthor)
                 .flatMap(messageCommandManager::processCommand)
                 ;
     }

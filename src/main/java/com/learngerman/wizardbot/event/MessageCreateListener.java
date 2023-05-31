@@ -30,7 +30,9 @@ public class MessageCreateListener implements EventListener<MessageCreateEvent> 
     public Mono<Void> execute(MessageCreateEvent event) {
         Message message = event.getMessage();
 
-        if (messageValidator.isCommand(message))
+        if (messageValidator.hasAuthor(message))
+            return Mono.empty();
+        else if (messageValidator.isCommand(message))
             return messageCommandManager.processCommand(message);
         else if (!messageValidator.isBot(message.getAuthor())) {
             simpleMessageManager.process(message);

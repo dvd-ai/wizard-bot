@@ -3,7 +3,9 @@ package com.learngerman.wizardbot.command;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.PartialMember;
+import discord4j.rest.http.client.ClientException;
 import discord4j.rest.util.Permission;
+import reactor.core.publisher.Mono;
 
 
 public class MessageEventUtils {
@@ -41,6 +43,7 @@ public class MessageEventUtils {
         Snowflake memberId = Snowflake.of(discordId);
 
         message.getGuild().flatMap(guild -> guild.getMemberById(memberId))
+                .onErrorResume(ClientException.isStatusCode(404), e -> Mono.empty())
                 .doOnNext(member -> {
                     memberInfo.setAvatar(member.getAvatarUrl());
                     memberInfo.setDiscriminator(member.getDiscriminator());

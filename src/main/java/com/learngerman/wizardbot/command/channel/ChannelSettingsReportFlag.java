@@ -13,7 +13,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static com.learngerman.wizardbot.command.MessageEventUtils.*;
+import static com.learngerman.wizardbot.command.MessageEventUtils.extractChannelIdFromMention;
+import static com.learngerman.wizardbot.command.MessageEventUtils.extractTrueFalseDefiner;
+
 
 @Component
 public class ChannelSettingsReportFlag implements Flag {
@@ -44,7 +46,8 @@ public class ChannelSettingsReportFlag implements Flag {
                 .flatMap(messageChannel -> messageChannel.createMessage(
                         constructResponseMessage())
                 )
-        ;
+                ;
+
     }
 
     public MessageCreateSpec constructResponseMessage() {

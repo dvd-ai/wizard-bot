@@ -42,7 +42,7 @@ public class CurrencyValidator {
         checkCurrencyFormat(goldAmount);
     }
 
-    public void checkDiscordId (String discordUserId) {
+    public void checkDiscordId(String discordUserId) {
         try {
             Long.valueOf(extractDiscordIdFromMention(discordUserId));
         } catch (NumberFormatException e) {

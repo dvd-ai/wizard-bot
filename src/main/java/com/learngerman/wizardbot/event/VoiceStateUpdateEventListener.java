@@ -7,7 +7,7 @@ import reactor.core.publisher.Mono;
 
 
 @Service
-public class VoiceStateUpdateEventListener implements EventListener<VoiceStateUpdateEvent>{
+public class VoiceStateUpdateEventListener implements EventListener<VoiceStateUpdateEvent> {
     private final VoiceChatManager voiceChatManager;
 
     public VoiceStateUpdateEventListener(VoiceChatManager voiceChatManager) {
