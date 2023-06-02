@@ -20,7 +20,7 @@ public class StudentRowMapper implements RowMapper<Student> {
                 rs.getLong("d_uid"),
                 rs.getFloat("gold_balance"),
                 rs.getBoolean("is_engaged"),
-                localDate
-        );
+                localDate,
+                rs.getBoolean("is_in_guild"));
     }
 }
