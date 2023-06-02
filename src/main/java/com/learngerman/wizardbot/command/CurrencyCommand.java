@@ -1,13 +1,17 @@
 package com.learngerman.wizardbot.command;
 
 import com.learngerman.wizardbot.command.currency.*;
+import com.learngerman.wizardbot.student.Student;
 import com.learngerman.wizardbot.student.StudentService;
 import discord4j.core.object.entity.Message;
 import discord4j.core.spec.EmbedCreateSpec;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 
 import static com.learngerman.wizardbot.command.CommandUtils.getNextCommandPartsToParse;
 import static com.learngerman.wizardbot.command.MessageEventUtils.getMemberInfo;
@@ -26,7 +30,10 @@ public class CurrencyCommand implements Command {
 
     private final CurrencyInfoFlag infoFlag;
 
-    public CurrencyCommand(StudentService studentService, CurrencyGrantFlag grantFlag, NonexistentCommand nonexistentCommand, CurrencyConfiscateFlag confiscateFlag, CurrencyFreezeFlag freezeFlag, CurrencyUnfreezeFlag unfreezeFlag, CurrencyInfoFlag infoFlag) {
+    public CurrencyCommand(StudentService studentService, CurrencyGrantFlag grantFlag,
+                           NonexistentCommand nonexistentCommand, CurrencyConfiscateFlag confiscateFlag,
+                           CurrencyFreezeFlag freezeFlag, CurrencyUnfreezeFlag unfreezeFlag,
+                           CurrencyInfoFlag infoFlag) {
         this.studentService = studentService;
         this.grantFlag = grantFlag;
         this.nonexistentCommand = nonexistentCommand;
@@ -63,20 +70,30 @@ public class CurrencyCommand implements Command {
 
     private Mono<Object> processWithNoParametersOrFlags(Message message) {
         Long authorDiscordId = getMessageAuthorDiscordId(message);
-        float goldCurrency = studentService.getStudentGoldCurrency(authorDiscordId);
+        Student student = studentService.getStudent(authorDiscordId);
 
 
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(
-                        constructResponseMemberInfoCurrency(goldCurrency, getMemberInfo(message)))
+                        constructResponseMemberInfoCurrency(student, getMemberInfo(message)))
                 );
     }
 
-    private EmbedCreateSpec constructResponseMemberInfoCurrency(float goldCurrency, MemberInfo memberInfo) {
+    private EmbedCreateSpec constructResponseMemberInfoCurrency(Student student, MemberInfo memberInfo) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd. MMMM yyyy", Locale.GERMAN);
+        LocalDate defrostDate = student.getBalanceDefrostDate();
+        String defrostDateStr = "";
+
+        if (defrostDate != null) {
+            defrostDateStr = " ❄ " + defrostDate.format(formatter);
+        }
+
         return buildUserInfoMessage(
                 "Währungssaldo",
-                "@" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() + "\n" + String.format("%.2f", goldCurrency) + " 🪙",
-
+                "@" + memberInfo.getUsername()
+                        + "#" + memberInfo.getDiscriminator()
+                        + "\n" + String.format("%.2f", student.getGoldBalance()) + " 🪙\n"
+                        + defrostDateStr,
                 memberInfo.getAvatar()
         );
     }
