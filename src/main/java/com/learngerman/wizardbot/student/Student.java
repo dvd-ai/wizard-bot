@@ -9,11 +9,14 @@ public class Student {
     private boolean isEngaged;
     private LocalDate balanceDefrostDate;
 
-    public Student(Long discordId, float goldBalance, boolean isEngaged, LocalDate balanceDefrostDate) {
+    private boolean isInGuild;
+
+    public Student(Long discordId, float goldBalance, boolean isEngaged, LocalDate balanceDefrostDate, boolean isInGuild) {
         this.discordId = discordId;
         this.goldBalance = goldBalance;
         this.isEngaged = isEngaged;
         this.balanceDefrostDate = balanceDefrostDate;
+        this.isInGuild = isInGuild;
     }
 
     public Long getDiscordId() {
@@ -48,25 +51,25 @@ public class Student {
         this.balanceDefrostDate = balanceDefrostDate;
     }
 
+    public boolean isInGuild() {
+        return isInGuild;
+    }
+
+    public void setInGuild(boolean inGuild) {
+        isInGuild = inGuild;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
         Student student = (Student) o;
-
-        if (Float.compare(student.goldBalance, goldBalance) != 0) return false;
-        if (isEngaged != student.isEngaged) return false;
-        if (!discordId.equals(student.discordId)) return false;
-        return Objects.equals(balanceDefrostDate, student.balanceDefrostDate);
+        return Objects.equals(discordId, student.getDiscordId());
     }
 
     @Override
     public int hashCode() {
-        int result = discordId.hashCode();
-        result = 31 * result + (goldBalance != +0.0f ? Float.floatToIntBits(goldBalance) : 0);
-        result = 31 * result + (isEngaged ? 1 : 0);
-        result = 31 * result + (balanceDefrostDate != null ? balanceDefrostDate.hashCode() : 0);
-        return result;
+        return discordId.hashCode();
     }
 }

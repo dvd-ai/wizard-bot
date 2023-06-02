@@ -63,8 +63,8 @@ public class AddCommand implements Command {
                 .doOnNext(member -> studentService.addStudent(
                                 new Student(
                                         member.getId().asLong(), GOLD_START_CAPITAL,
-                                        false, null
-                                )
+                                        false, null,
+                                        true)
                         )
                 ).subscribe();
     }
