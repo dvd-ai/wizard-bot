@@ -18,7 +18,9 @@ import reactor.core.publisher.Mono;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
 
 import static com.learngerman.wizardbot.Wizard.PAGE_SIZE;
 import static com.learngerman.wizardbot.command.MessageEventUtils.extractDiscordIdFromMention;
@@ -35,6 +37,8 @@ public class CurrencyInfoFlag implements Flag {
     private final CurrencyValidator currencyValidator;
     private final NonexistentCommand nonexistentCommand;
     private final StudentService studentService;
+
+    private static final String TITLE_ALL = "Studentenliste mit Geldinformation";
 
     public CurrencyInfoFlag(CurrencyValidator currencyValidator, NonexistentCommand nonexistentCommand, StudentService studentService) {
         this.currencyValidator = currencyValidator;
@@ -74,7 +78,7 @@ public class CurrencyInfoFlag implements Flag {
             totalPageAmount[0] = (int) Math.ceil((double) studentsAmount / PAGE_SIZE);
             String pageDescription = formatPageDescription(studentsMap, 0);
 
-            return createPagedMessage(channelId, pageDescription, getTitle(), 1, totalPageAmount[0], client);
+            return createPagedMessage(channelId, pageDescription, TITLE_ALL, 1, totalPageAmount[0], client);
         }).subscribe(message -> handleButtonClicks(message, guildMono, totalPageAmount[0]).subscribe());
     }
 
@@ -93,13 +97,9 @@ public class CurrencyInfoFlag implements Flag {
         return mapMono
                 .flatMap(memberInfos -> {
                     String newReportContent = formatPageDescription(memberInfos, pageToShow - 1);
-                    return createEditedPagedMessage(newReportContent, getTitle(), reportMessage, pageToShow, totalPageAmount);
+                    return createEditedPagedMessage(newReportContent, TITLE_ALL, reportMessage, pageToShow, totalPageAmount);
                 })
                 .then(acknowledgeAndDeleteReply(event));
-    }
-
-    private String getTitle() {
-        return "Studentenliste mit Geldinformation";
     }
 
     private String formatPageDescription(Map<Student, MemberInfo> studentsMap, int ten) {
@@ -139,7 +139,7 @@ public class CurrencyInfoFlag implements Flag {
         return sb.append(" ❄️").append(defrostDate.format(formatter));
     }
 
-    private List<Student> getSortedStudents(Map<Student, MemberInfo>studentMemberInfoMap) {
+    private List<Student> getSortedStudents(Map<Student, MemberInfo> studentMemberInfoMap) {
         return studentMemberInfoMap.keySet()
                 .stream()
                 .sorted(new StudentComparator())
