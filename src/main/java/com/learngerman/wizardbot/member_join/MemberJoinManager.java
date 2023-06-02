@@ -20,8 +20,8 @@ public class MemberJoinManager {
         long memberId = member.getId().asLong();
         studentService.addStudent(
                 new Student(memberId, GOLD_START_CAPITAL,
-                        false, null
-                )
+                        false, null,
+                        true)
         );
     }
 }
