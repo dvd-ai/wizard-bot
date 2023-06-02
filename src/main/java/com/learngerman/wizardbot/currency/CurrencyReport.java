@@ -22,7 +22,7 @@ import java.util.Locale;
 import static com.learngerman.wizardbot.Wizard.PAGE_SIZE;
 import static com.learngerman.wizardbot.util.ButtonUtil.*;
 import static com.learngerman.wizardbot.util.GuildUtil.getGuildMono;
-import static com.learngerman.wizardbot.util.GuildUtil.getStudentsInfosMono;
+import static com.learngerman.wizardbot.util.GuildUtil.getStudentsInfosListMono;
 import static com.learngerman.wizardbot.util.PageUtils.createEditedPagedMessage;
 import static com.learngerman.wizardbot.util.PageUtils.createPagedMessage;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUsualMessage;
@@ -46,7 +46,7 @@ public class CurrencyReport {
         List<Channel> channelsForReport = channelService.getChannelsForReport();
         if (channelsForReport.isEmpty())
             return;
-        //i have to test scenario when someone leaves the guild (before the report)
+
         List<Long> studentIdsWithNoCurrency = studentService.getStudentIdsWithNoCurrency(0, PAGE_SIZE);
         sendReportsToChannels(channelsForReport, studentIdsWithNoCurrency);
     }
@@ -60,7 +60,7 @@ public class CurrencyReport {
             if (studentIdsWithNoCurrency.isEmpty())
                 noPoorStudentsMessage(channelId);
             else {
-                Mono<List<MemberInfo>> studentInfoMono = getStudentsInfosMono(studentIdsWithNoCurrency, guildMono);
+                Mono<List<MemberInfo>> studentInfoMono = getStudentsInfosListMono(studentIdsWithNoCurrency, guildMono);
                 processStudentsInfo(studentInfoMono, channelId, guildMono);
             }
         }
@@ -88,7 +88,7 @@ public class CurrencyReport {
                                                      Message reportMessage, int totalPageAmount) {
         int pageToShow = getPageNumberToShowNext(event);
         List<Long> studentIdsWithNoCurrency = studentService.getStudentIdsWithNoCurrency(pageToShow - 1, PAGE_SIZE);
-        Mono<List<MemberInfo>> memberInfosMono = getStudentsInfosMono(studentIdsWithNoCurrency, guildMono);
+        Mono<List<MemberInfo>> memberInfosMono = getStudentsInfosListMono(studentIdsWithNoCurrency, guildMono);
 
         return memberInfosMono
                 .flatMap(memberInfos -> {
