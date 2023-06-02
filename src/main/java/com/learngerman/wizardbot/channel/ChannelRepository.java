@@ -88,5 +88,14 @@ public class ChannelRepository {
         return jdbc.queryForObject(sql, sqlParameterSource, new ChannelRowMapper());
     }
 
+    public void deleteChannel(Long channelId) {
+        String sql = "DELETE FROM STUDENTS " +
+                "WHERE c_id = :channelId ";
+
+        SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
+                .addValue("c_id", channelId);
+
+        jdbc.update(sql, sqlParameterSource);
+    }
 
 }

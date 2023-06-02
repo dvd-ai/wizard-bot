@@ -39,4 +39,8 @@ public class ChannelService {
     public List<Channel> getIgnoredChannelsForCurrency() {
         return channelRepository.getIgnoredChannelsForCurrency();
     }
+
+    public void deleteChannel(Long channelId) {
+        channelRepository.deleteChannel(channelId);
+    }
 }
