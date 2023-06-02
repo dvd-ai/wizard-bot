@@ -2,7 +2,6 @@ package com.learngerman.wizardbot.student;
 
 import org.springframework.stereotype.Service;
 
-
 import java.time.LocalDate;
 import java.util.List;
 
@@ -43,7 +42,7 @@ public class StudentService {
     public void decreaseAllStudentsGoldCurrencyBy(float goldAmount) {
         studentRepository.decreaseUnfreezedStudentsGoldCurrencyBy(goldAmount);
     }
-  
+
     public void confiscateStudentGoldCurrencyByDiscordId(float goldAmount, Long studentDiscordId) {
         studentRepository.decreaseStudentGoldCurrencyByDiscordId(goldAmount, studentDiscordId);
     }

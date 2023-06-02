@@ -6,7 +6,7 @@ import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 @Component
-public class ChannelDeleteEventListener implements EventListener<TextChannelDeleteEvent>{
+public class ChannelDeleteEventListener implements EventListener<TextChannelDeleteEvent> {
 
     private final ChannelService channelService;
 

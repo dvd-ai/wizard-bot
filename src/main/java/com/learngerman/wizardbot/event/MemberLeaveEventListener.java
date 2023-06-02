@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 import java.util.Optional;
 
 @Component
-public class MemberLeaveEventListener implements EventListener<MemberLeaveEvent>{
+public class MemberLeaveEventListener implements EventListener<MemberLeaveEvent> {
 
     private final StudentService studentService;
 

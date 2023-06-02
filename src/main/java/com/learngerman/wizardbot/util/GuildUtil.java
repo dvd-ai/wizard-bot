@@ -46,7 +46,6 @@ public class GuildUtil {
     }
 
 
-
     public static Mono<Guild> getGuildMono(Snowflake channelId, GatewayDiscordClient client) {
         return client.getChannelById(channelId)
                 .flatMap(channel1 -> {

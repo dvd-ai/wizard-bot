@@ -8,7 +8,6 @@ import org.springframework.stereotype.Repository;
 import javax.sql.DataSource;
 import java.time.LocalDate;
 import java.util.HashMap;
-
 import java.util.List;
 import java.util.Objects;
 
@@ -272,8 +271,7 @@ public class StudentRepository {
             throw new RuntimeException("no student with id: " + studentId);
 
         String sql = "SELECT COUNT(*) FROM students" +
-                " WHERE d_uid = :studentId AND is_in_guild = true"
-                ;
+                " WHERE d_uid = :studentId AND is_in_guild = true";
 
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()
@@ -283,7 +281,6 @@ public class StudentRepository {
 
         return Objects.requireNonNull(count) > 0;
     }
-
 
 
 }
