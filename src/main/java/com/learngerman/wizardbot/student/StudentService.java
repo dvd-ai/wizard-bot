@@ -2,6 +2,7 @@ package com.learngerman.wizardbot.student;
 
 import org.springframework.stereotype.Service;
 
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -81,5 +82,21 @@ public class StudentService {
 
     public Integer calculateStudentsWithZeroOrLessCurrency() {
         return studentRepository.calculateStudentsWithZeroOrLessCurrency();
+    }
+
+    public Integer calculateStudents() {
+        return studentRepository.calculateStudents();
+    }
+
+    public List<Student> getStudents(int page, int size) {
+        return studentRepository.getStudents(page, size);
+    }
+
+    public Student getStudent(Long studentId) {
+        return studentRepository.getStudent(studentId);
+    }
+
+    public void setStudentPresenceInGuild(Long studentId, boolean isPresent) {
+        studentRepository.setStudentPresenceInGuild(studentId, isPresent);
     }
 }
