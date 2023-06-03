@@ -13,6 +13,8 @@ import java.util.Map;
 import static com.learngerman.wizardbot.command.CommandName.CHANNEL_SETTINGS_COMMAND_NAME;
 import static com.learngerman.wizardbot.command.CommandName.COMMAND_NOTE;
 import static com.learngerman.wizardbot.command.CommandUtils.getNextCommandPartsToParse;
+import static com.learngerman.wizardbot.error.ErrorDescription.NO_FLAG_ERROR;
+import static com.learngerman.wizardbot.error.ErrorDescription.WRONG_FLAG_ERROR;
 
 @Component
 public class ChannelSettingsCommand implements Command {
@@ -55,13 +57,14 @@ public class ChannelSettingsCommand implements Command {
     @Override
     public Mono<Object> process(Message message, List<String> flags) {
         if (flags.isEmpty())
-            return nonexistentCommand.process(message, null);
+            return nonexistentCommand.process(message, NO_FLAG_ERROR);
 
         for (ChannelSettingsFlag channelSettingsFlag : channelSettingsFlags.values()) {
+            System.out.println(channelSettingsFlag.getName());
             if (channelSettingsFlag.getName().equals(flags.get(0))) {
                 return channelSettingsFlag.process(message, getNextCommandPartsToParse(flags));
             }
         }
-        return nonexistentCommand.process(message, null);
+        return nonexistentCommand.process(message, WRONG_FLAG_ERROR);
     }
 }
