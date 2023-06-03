@@ -19,6 +19,8 @@ import static com.learngerman.wizardbot.command.CommandName.CURRENCY_COMMAND_NAM
 import static com.learngerman.wizardbot.command.CommandUtils.getNextCommandPartsToParse;
 import static com.learngerman.wizardbot.command.MessageEventUtils.getMemberInfo;
 import static com.learngerman.wizardbot.command.MessageEventUtils.getMessageAuthorDiscordId;
+import static com.learngerman.wizardbot.error.ErrorDescription.NO_FLAG_ERROR;
+import static com.learngerman.wizardbot.error.ErrorDescription.WRONG_FLAG_ERROR;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 
 @Component
@@ -65,44 +67,13 @@ public class CurrencyCommand implements Command {
     @Override
     public Mono<Object> process(Message message, List<String> flags) {
         if (flags.isEmpty())
-            return processWithNoParametersOrFlags(message);
+            return nonexistentCommand.process(message, NO_FLAG_ERROR);
 
         for (CurrencyFlag currencyFlag : currencyFlags.values()) {
             if (currencyFlag.getName().equals(flags.get(0))) {
                 return currencyFlag.process(message, getNextCommandPartsToParse(flags));
             }
         }
-        return nonexistentCommand.process(message, null);
-    }
-
-
-    private Mono<Object> processWithNoParametersOrFlags(Message message) {
-        Long authorDiscordId = getMessageAuthorDiscordId(message);
-        Student student = studentService.getStudent(authorDiscordId);
-
-
-        return message.getChannel()
-                .flatMap(messageChannel -> messageChannel.createMessage(
-                        constructResponseMemberInfoCurrency(student, getMemberInfo(message)))
-                );
-    }
-
-    private EmbedCreateSpec constructResponseMemberInfoCurrency(Student student, MemberInfo memberInfo) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE, dd. MMMM yyyy", Locale.GERMAN);
-        LocalDate defrostDate = student.getBalanceDefrostDate();
-        String defrostDateStr = "";
-
-        if (defrostDate != null) {
-            defrostDateStr = " ❄ " + defrostDate.format(formatter);
-        }
-
-        return buildUserInfoMessage(
-                "Währungssaldo",
-                "@" + memberInfo.getUsername()
-                        + "#" + memberInfo.getDiscriminator()
-                        + "\n" + String.format("%.2f", student.getGoldBalance()) + " 🪙\n"
-                        + defrostDateStr,
-                memberInfo.getAvatar()
-        );
+        return nonexistentCommand.process(message, WRONG_FLAG_ERROR);
     }
 }
