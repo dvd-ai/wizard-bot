@@ -1,7 +1,6 @@
 package com.learngerman.wizardbot.command.currency;
 
 import com.learngerman.wizardbot.command.CurrencyFlag;
-import com.learngerman.wizardbot.command.Flag;
 import com.learngerman.wizardbot.command.MemberInfo;
 import com.learngerman.wizardbot.student.StudentService;
 import discord4j.core.object.entity.Message;

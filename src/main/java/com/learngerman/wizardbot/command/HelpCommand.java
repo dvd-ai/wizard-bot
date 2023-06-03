@@ -29,7 +29,7 @@ public class HelpCommand implements Command {
 
         sb.append("The list of all available commands:\n\n");
 
-        for (Command command: commands.values()) {
+        for (Command command : commands.values()) {
             sb.append(command.getCommandDescription()).append("\n\n");
         }
 

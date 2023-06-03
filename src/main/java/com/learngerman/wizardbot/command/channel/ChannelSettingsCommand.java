@@ -10,14 +10,15 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 import java.util.Map;
 
-import static com.learngerman.wizardbot.command.CommandName.*;
+import static com.learngerman.wizardbot.command.CommandName.CHANNEL_SETTINGS_COMMAND_NAME;
+import static com.learngerman.wizardbot.command.CommandName.COMMAND_NOTE;
 import static com.learngerman.wizardbot.command.CommandUtils.getNextCommandPartsToParse;
 
 @Component
 public class ChannelSettingsCommand implements Command {
     private final NonexistentCommand nonexistentCommand;
 
-    private final Map<String, ChannelSettingsFlag>channelSettingsFlags;
+    private final Map<String, ChannelSettingsFlag> channelSettingsFlags;
 
     public ChannelSettingsCommand(NonexistentCommand nonexistentCommand, ApplicationContext applicationContext) {
 

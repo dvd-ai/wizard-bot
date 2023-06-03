@@ -2,7 +2,6 @@ package com.learngerman.wizardbot.command.channel;
 
 import com.learngerman.wizardbot.channel.Channel;
 import com.learngerman.wizardbot.channel.ChannelService;
-import com.learngerman.wizardbot.command.Flag;
 import com.learngerman.wizardbot.command.NonexistentCommand;
 import discord4j.core.object.entity.Message;
 import discord4j.core.spec.EmbedCreateSpec;

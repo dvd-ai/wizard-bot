@@ -26,7 +26,7 @@ public class CurrencyCommand implements Command {
 
     private final StudentService studentService;
     private final NonexistentCommand nonexistentCommand;
-    private final Map<String, CurrencyFlag>currencyFlags;
+    private final Map<String, CurrencyFlag> currencyFlags;
 
     public CurrencyCommand(StudentService studentService, NonexistentCommand nonexistentCommand,
                            ApplicationContext applicationContext) {

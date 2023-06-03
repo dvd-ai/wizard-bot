@@ -1,7 +1,6 @@
 package com.learngerman.wizardbot.command.currency;
 
 import com.learngerman.wizardbot.command.CurrencyFlag;
-import com.learngerman.wizardbot.command.Flag;
 import com.learngerman.wizardbot.command.MemberInfo;
 import com.learngerman.wizardbot.command.NonexistentCommand;
 import com.learngerman.wizardbot.student.Student;
@@ -36,11 +35,10 @@ import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInf
 @Component
 public class CurrencyInfoFlag implements CurrencyFlag {
 
+    private static final String TITLE_ALL = "Studentenliste mit Geldinformation";
     private final CurrencyValidator currencyValidator;
     private final NonexistentCommand nonexistentCommand;
     private final StudentService studentService;
-
-    private static final String TITLE_ALL = "Studentenliste mit Geldinformation";
 
     public CurrencyInfoFlag(CurrencyValidator currencyValidator, NonexistentCommand nonexistentCommand, StudentService studentService) {
         this.currencyValidator = currencyValidator;
