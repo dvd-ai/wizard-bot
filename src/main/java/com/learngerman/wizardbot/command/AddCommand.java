@@ -41,7 +41,7 @@ public class AddCommand implements Command {
 
     @Override
     public Mono<Object> process(Message message, List<String> flags) {
-            return processNew(message);
+        return processNew(message);
     }
 
     private Mono<Object> processNew(Message message) {
