@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.command;
 
+import com.learngerman.wizardbot.error.exception.WizardBotException;
 import discord4j.core.object.entity.Message;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -9,13 +10,13 @@ import java.util.List;
 import java.util.Map;
 
 import static com.learngerman.wizardbot.command.CommandUtils.*;
+import static com.learngerman.wizardbot.error.ErrorDescription.WRONG_COMMAND_ERROR;
 
 @Component
 public class MessageCommandManager {
     private final NonexistentCommand nonexistentCommand;
     private final Map<String, Command> commands;
 
-    //error handler
 
     public MessageCommandManager(NonexistentCommand nonexistentCommand, ApplicationContext applicationContext) {
         this.nonexistentCommand = nonexistentCommand;
@@ -42,11 +43,9 @@ public class MessageCommandManager {
                     return command.process(message, getNextCommandPartsToParse(commandParts));
                 }
             }
-            return nonexistentCommand.process(message, null);
-        } catch (RuntimeException e) {
-            System.out.println(e.getMessage());
-            //process error and return error message
-            return Mono.empty();
+            return nonexistentCommand.process(message, WRONG_COMMAND_ERROR);
+        } catch (WizardBotException e) {
+            return nonexistentCommand.process(message, e.getMessage());
         }
 
     }
