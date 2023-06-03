@@ -8,7 +8,11 @@ import java.util.List;
 
 public interface Command {
 
-    String getDescription();
+    String getCommandDescription();
+
+    String getFlagsDescription();
+
+    String getName();
 
     Mono<Object> process(Message message, List<String> commandParts);
 
