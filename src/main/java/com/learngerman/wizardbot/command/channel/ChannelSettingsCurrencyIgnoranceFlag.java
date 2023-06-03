@@ -15,9 +15,11 @@ import java.util.List;
 
 import static com.learngerman.wizardbot.command.MessageEventUtils.extractChannelIdFromMention;
 import static com.learngerman.wizardbot.command.MessageEventUtils.extractTrueFalseDefiner;
+import static com.learngerman.wizardbot.command.channel.ChannelSettingsFlagName.CURRENCY_IGNORANCE_FLAG_NAME;
+import static com.learngerman.wizardbot.command.currency.CurrencyFlagName.CONFISCATE_FLAG_NAME;
 
 @Component
-public class ChannelSettingsCurrencyIgnoranceFlag implements Flag {
+public class ChannelSettingsCurrencyIgnoranceFlag implements ChannelSettingsFlag {
 
     private final NonexistentCommand nonexistentCommand;
     private final ChannelService channelService;
@@ -30,8 +32,13 @@ public class ChannelSettingsCurrencyIgnoranceFlag implements Flag {
     }
 
     @Override
-    public String getFlagDescription() {
-        return null;
+    public String getDescription() {
+        return String.format("!**%s <#text-channel-mention> <1 | 0>** - sets a channel for currency accumulation ignorance (1 - start ignoring, 0 - stop ignoring).", CURRENCY_IGNORANCE_FLAG_NAME);
+    }
+
+    @Override
+    public String getName() {
+        return CURRENCY_IGNORANCE_FLAG_NAME;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.command.currency;
 
+import com.learngerman.wizardbot.command.CurrencyFlag;
 import com.learngerman.wizardbot.command.Flag;
 import com.learngerman.wizardbot.command.MemberInfo;
 import com.learngerman.wizardbot.student.StudentService;
@@ -15,10 +16,11 @@ import java.util.Locale;
 
 import static com.learngerman.wizardbot.Wizard.REPORT_TIME;
 import static com.learngerman.wizardbot.command.MessageEventUtils.*;
+import static com.learngerman.wizardbot.command.currency.CurrencyFlagName.FREEZE_FLAG_NAME;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 
 @Component
-public class CurrencyFreezeFlag implements Flag {
+public class CurrencyFreezeFlag implements CurrencyFlag {
 
     private final CurrencyValidator currencyValidator;
     private final StudentService studentService;
@@ -29,8 +31,13 @@ public class CurrencyFreezeFlag implements Flag {
     }
 
     @Override
-    public String getFlagDescription() {
-        return null;
+    public String getDescription() {
+        return String.format("!**%s <@studentMention> <a date in the format: dd.mm.yyyy>** - freezes a currency balance of a specific student till the date.", FREEZE_FLAG_NAME);
+    }
+
+    @Override
+    public String getName() {
+        return FREEZE_FLAG_NAME;
     }
 
     @Override

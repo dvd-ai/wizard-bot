@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.command.currency;
 
+import com.learngerman.wizardbot.command.CurrencyFlag;
 import com.learngerman.wizardbot.command.Flag;
 import com.learngerman.wizardbot.command.MemberInfo;
 import com.learngerman.wizardbot.command.NonexistentCommand;
@@ -14,12 +15,13 @@ import java.util.List;
 
 import static com.learngerman.wizardbot.command.CommandUtils.getNextCommandPartsToParse;
 import static com.learngerman.wizardbot.command.MessageEventUtils.*;
+import static com.learngerman.wizardbot.command.currency.CurrencyFlagName.GRANT_FLAG_NAME;
 import static com.learngerman.wizardbot.util.NumberUtil.isPositiveRealNumber;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUsualMessage;
 
 @Component
-public class CurrencyGrantFlag implements Flag {
+public class CurrencyGrantFlag implements CurrencyFlag {
 
     private final StudentService studentService;
     private final NonexistentCommand nonexistentCommand;
@@ -32,8 +34,14 @@ public class CurrencyGrantFlag implements Flag {
     }
 
     @Override
-    public String getFlagDescription() {
-        return null;
+    public String getDescription() {
+        return String.format("!**%s <all> <N>** - grants all students N \uD83E\uDE99.\n" +
+                "!**%s <@studentMention> <N>** - grants a specific student N \uD83E\uDE99.", GRANT_FLAG_NAME, GRANT_FLAG_NAME);
+    }
+
+    @Override
+    public String getName() {
+        return GRANT_FLAG_NAME;
     }
 
     @Override

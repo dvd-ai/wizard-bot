@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.command.currency;
 
+import com.learngerman.wizardbot.command.CurrencyFlag;
 import com.learngerman.wizardbot.command.Flag;
 import com.learngerman.wizardbot.command.MemberInfo;
 import com.learngerman.wizardbot.command.NonexistentCommand;
@@ -25,6 +26,7 @@ import java.util.Map;
 import static com.learngerman.wizardbot.Wizard.PAGE_SIZE;
 import static com.learngerman.wizardbot.command.MessageEventUtils.extractDiscordIdFromMention;
 import static com.learngerman.wizardbot.command.MessageEventUtils.getMemberInfo;
+import static com.learngerman.wizardbot.command.currency.CurrencyFlagName.INFO_FLAG_NAME;
 import static com.learngerman.wizardbot.util.ButtonUtil.*;
 import static com.learngerman.wizardbot.util.GuildUtil.getStudentsInfosMapMono;
 import static com.learngerman.wizardbot.util.PageUtils.createEditedPagedMessage;
@@ -32,7 +34,7 @@ import static com.learngerman.wizardbot.util.PageUtils.createPagedMessage;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 
 @Component
-public class CurrencyInfoFlag implements Flag {
+public class CurrencyInfoFlag implements CurrencyFlag {
 
     private final CurrencyValidator currencyValidator;
     private final NonexistentCommand nonexistentCommand;
@@ -48,8 +50,16 @@ public class CurrencyInfoFlag implements Flag {
 
 
     @Override
-    public String getFlagDescription() {
-        return null;
+    public String getDescription() {
+        return String.format("""
+                **%s <all>** - gets a 'leaderboard' and a currency status of all students.
+                **%s <@studentMention>** - gets a currency status of a specific student.
+                """, INFO_FLAG_NAME, INFO_FLAG_NAME);
+    }
+
+    @Override
+    public String getName() {
+        return INFO_FLAG_NAME;
     }
 
     @Override

@@ -1,10 +1,10 @@
 package com.learngerman.wizardbot.command;
 
-import com.learngerman.wizardbot.command.currency.*;
 import com.learngerman.wizardbot.student.Student;
 import com.learngerman.wizardbot.student.StudentService;
 import discord4j.core.object.entity.Message;
 import discord4j.core.spec.EmbedCreateSpec;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
@@ -12,7 +12,10 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
+import static com.learngerman.wizardbot.command.CommandName.COMMAND_NOTE;
+import static com.learngerman.wizardbot.command.CommandName.CURRENCY_COMMAND_NAME;
 import static com.learngerman.wizardbot.command.CommandUtils.getNextCommandPartsToParse;
 import static com.learngerman.wizardbot.command.MessageEventUtils.getMemberInfo;
 import static com.learngerman.wizardbot.command.MessageEventUtils.getMessageAuthorDiscordId;
@@ -22,33 +25,41 @@ import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInf
 public class CurrencyCommand implements Command {
 
     private final StudentService studentService;
-    private final CurrencyGrantFlag grantFlag;
     private final NonexistentCommand nonexistentCommand;
-    private final CurrencyConfiscateFlag confiscateFlag;
-    private final CurrencyFreezeFlag freezeFlag;
-    private final CurrencyUnfreezeFlag unfreezeFlag;
+    private final Map<String, CurrencyFlag>currencyFlags;
 
-    private final CurrencyInfoFlag infoFlag;
-
-    public CurrencyCommand(StudentService studentService, CurrencyGrantFlag grantFlag,
-                           NonexistentCommand nonexistentCommand, CurrencyConfiscateFlag confiscateFlag,
-                           CurrencyFreezeFlag freezeFlag, CurrencyUnfreezeFlag unfreezeFlag,
-                           CurrencyInfoFlag infoFlag) {
+    public CurrencyCommand(StudentService studentService, NonexistentCommand nonexistentCommand,
+                           ApplicationContext applicationContext) {
         this.studentService = studentService;
-        this.grantFlag = grantFlag;
         this.nonexistentCommand = nonexistentCommand;
-        this.confiscateFlag = confiscateFlag;
-        this.freezeFlag = freezeFlag;
-        this.unfreezeFlag = unfreezeFlag;
-        this.infoFlag = infoFlag;
+        this.currencyFlags = applicationContext.getBeansOfType(CurrencyFlag.class);
     }
 
 
     @Override
-    public String getDescription() {
-        return """
-                **currency** - shows your current currency balance 🪙.
-                 """;
+    public String getCommandDescription() {
+        return "**" + CURRENCY_COMMAND_NAME + "**" +
+                " - helps you to manipulate with the currency (for admins only); to provide members' balance of 🪙.";
+    }
+
+    @Override
+    public String getFlagsDescription() {
+
+        StringBuilder sb = new StringBuilder();
+
+        sb.append("The list of all available **'").append(CURRENCY_COMMAND_NAME).append("'** flags:\n\n");
+
+        for (CurrencyFlag currencyFlag : currencyFlags.values()) {
+            sb.append(currencyFlag.getDescription()).append("\n\n");
+        }
+
+        sb.append(COMMAND_NOTE);
+        return sb.toString();
+    }
+
+    @Override
+    public String getName() {
+        return CURRENCY_COMMAND_NAME;
     }
 
     @Override
@@ -56,15 +67,12 @@ public class CurrencyCommand implements Command {
         if (flags.isEmpty())
             return processWithNoParametersOrFlags(message);
 
-        return switch (flags.get(0)) {
-            case "grant" -> grantFlag.process(message, getNextCommandPartsToParse(flags));
-            case "confiscate" -> confiscateFlag.process(message, getNextCommandPartsToParse(flags));
-            case "info" -> infoFlag.process(message, getNextCommandPartsToParse(flags));
-            case "freeze" -> freezeFlag.process(message, getNextCommandPartsToParse(flags));
-            case "unfreeze" -> unfreezeFlag.process(message, getNextCommandPartsToParse(flags));
-            default -> nonexistentCommand.process(message, null);
-        };
-
+        for (CurrencyFlag currencyFlag : currencyFlags.values()) {
+            if (currencyFlag.getName().equals(flags.get(0))) {
+                return currencyFlag.process(message, getNextCommandPartsToParse(flags));
+            }
+        }
+        return nonexistentCommand.process(message, null);
     }
 
 

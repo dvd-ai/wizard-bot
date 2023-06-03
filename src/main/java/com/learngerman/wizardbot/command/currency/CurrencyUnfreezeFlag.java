@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.command.currency;
 
+import com.learngerman.wizardbot.command.CurrencyFlag;
 import com.learngerman.wizardbot.command.Flag;
 import com.learngerman.wizardbot.command.MemberInfo;
 import com.learngerman.wizardbot.student.StudentService;
@@ -11,10 +12,11 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 import static com.learngerman.wizardbot.command.MessageEventUtils.*;
+import static com.learngerman.wizardbot.command.currency.CurrencyFlagName.UNFREEZE_FLAG_NAME;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 
 @Component
-public class CurrencyUnfreezeFlag implements Flag {
+public class CurrencyUnfreezeFlag implements CurrencyFlag {
 
     private final CurrencyValidator currencyValidator;
     private final StudentService studentService;
@@ -25,8 +27,15 @@ public class CurrencyUnfreezeFlag implements Flag {
     }
 
     @Override
-    public String getFlagDescription() {
-        return null;
+    public String getDescription() {
+        return String.format("""
+                !**%s <@studentMention>** - unfreezes a currency balance of a specific student.
+                """, UNFREEZE_FLAG_NAME);
+    }
+
+    @Override
+    public String getName() {
+        return UNFREEZE_FLAG_NAME;
     }
 
     @Override
