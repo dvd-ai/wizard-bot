@@ -21,7 +21,7 @@ public class MessageEventUtils {
         ).subscribe();
 
         if (!verified[0])
-            throw new RuntimeException("You doesn't have authorities to use this command!");
+            throw new RuntimeException("You don't have authorities to use this command!");
 
     }
 
