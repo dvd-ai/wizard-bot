@@ -17,11 +17,9 @@ import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUsualMe
 
 @Component
 public class AddCommand implements Command {
-    private final NonexistentCommand nonexistentCommand;
     private final StudentService studentService;
 
-    public AddCommand(NonexistentCommand nonexistentCommand, StudentService studentService) {
-        this.nonexistentCommand = nonexistentCommand;
+    public AddCommand(StudentService studentService) {
         this.studentService = studentService;
     }
 
@@ -43,10 +41,7 @@ public class AddCommand implements Command {
 
     @Override
     public Mono<Object> process(Message message, List<String> flags) {
-        if (flags.isEmpty())
-            return processNew(message);
-
-        return nonexistentCommand.process(message, null);
+        return processNew(message);
     }
 
     private Mono<Object> processNew(Message message) {

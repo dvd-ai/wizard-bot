@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.command.currency;
 
+import com.learngerman.wizardbot.error.exception.CommandLineException;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -31,10 +32,10 @@ public class CurrencyValidator {
 
     private void checkArraySize(List<String> parameters, int lowestSizeBound) {
         if (parameters.isEmpty())
-            throw new RuntimeException("parameters are empty");
+            throw new CommandLineException("parameters shouldn't be empty!");
 
         if (parameters.size() < lowestSizeBound)
-            throw new RuntimeException("not enough amount of given parameters");
+            throw new CommandLineException("You've provided not enough parameters!");
     }
 
     private void checkFormatOfParameters(String discordUserId, String goldAmount) {
@@ -46,13 +47,13 @@ public class CurrencyValidator {
         try {
             Long.valueOf(extractDiscordIdFromMention(discordUserId));
         } catch (NumberFormatException e) {
-            throw new RuntimeException("There is no such a user.");
+            throw new CommandLineException("Wrong format of the user you've provided.");
         }
     }
 
     public void checkCurrencyFormat(String goldAmount) {
         if (!isPositiveRealNumber(goldAmount)) {
-            throw new RuntimeException("wrong number format: '" + goldAmount + "'");
+            throw new CommandLineException("Wrong number format: '" + goldAmount + "'");
         }
     }
 
@@ -64,13 +65,13 @@ public class CurrencyValidator {
         try {
             parsedDate = LocalDate.parse(date, formatter);
         } catch (DateTimeParseException e) {
-            throw new RuntimeException("the date '" + date + "' doesn't follow the pattern: dd.MM.yyyy");
+            throw new CommandLineException("The date '" + date + "' doesn't follow the pattern: **dd.MM.yyyy**!");
         }
 
         if (parsedDate.isBefore(now) || parsedDate.isEqual(now))
-            throw new RuntimeException("""
+            throw new CommandLineException("""
                     The date you provided is in the past. Don't forget to set date,
-                    according to Berlin/Europe timezone"
+                    according to Berlin/Europe timezone!"
                     """
             );
     }

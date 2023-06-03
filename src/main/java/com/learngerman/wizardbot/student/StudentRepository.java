@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.student;
 
+import com.learngerman.wizardbot.error.exception.DbException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -10,6 +11,9 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
+
+import static com.learngerman.wizardbot.error.ErrorDescription.MISSED_STUDENT_SERVER_ERROR;
+import static com.learngerman.wizardbot.error.ErrorDescription.STUDENT_NOT_EXIST_ERROR;
 
 @Repository
 public class StudentRepository {
@@ -92,7 +96,7 @@ public class StudentRepository {
 
     public void increaseStudentGoldCurrencyByDiscordId(float goldAmount, Long studentDiscordId) {
         if (!studentIsPresentInGuild(studentDiscordId))
-            throw new RuntimeException("student with id: " + studentDiscordId + " not present in the guild");
+            throw new DbException(MISSED_STUDENT_SERVER_ERROR);
 
         String sql = "UPDATE students SET gold_balance = gold_balance + :goldAmount " +
                 "WHERE d_uid = :studentDiscordId";
@@ -106,7 +110,7 @@ public class StudentRepository {
 
     public void decreaseStudentGoldCurrencyByDiscordId(float goldAmount, Long studentDiscordId) {
         if (!studentIsPresentInGuild(studentDiscordId))
-            throw new RuntimeException("student with id: " + studentDiscordId + " not present in the guild");
+            throw new DbException(MISSED_STUDENT_SERVER_ERROR);
 
         String sql = "UPDATE students SET gold_balance = gold_balance - :goldAmount " +
                 "WHERE d_uid = :studentDiscordId";
@@ -120,7 +124,7 @@ public class StudentRepository {
 
     public void setStudentEngagement(boolean isEngaged, Long studentDiscordId) {
         if (!studentIsPresentInGuild(studentDiscordId))
-            throw new RuntimeException("student with id: " + studentDiscordId + " not present in the guild");
+            throw new DbException(MISSED_STUDENT_SERVER_ERROR);
 
         String sql = "UPDATE students SET is_engaged = :isEngaged" +
                 "WHERE d_uid = :studentDiscordId";
@@ -134,7 +138,7 @@ public class StudentRepository {
 
     public void freezeStudentBalanceTillDefrostDate(LocalDate defrostDate, Long studentDiscordId) {
         if (!studentIsPresentInGuild(studentDiscordId))
-            throw new RuntimeException("student with id: " + studentDiscordId + " not present in the guild");
+            throw new DbException(MISSED_STUDENT_SERVER_ERROR);
 
         String sql = "UPDATE students SET balance_defrost_date = :defrostDate" +
                 " WHERE d_uid = :d_uid";
@@ -148,7 +152,7 @@ public class StudentRepository {
 
     public void unfreezeStudentBalance(Long studentDiscordId) {
         if (!studentIsPresentInGuild(studentDiscordId))
-            throw new RuntimeException("student with id: " + studentDiscordId + " not present in the guild");
+            throw new DbException(MISSED_STUDENT_SERVER_ERROR);
 
         String sql = "UPDATE students SET balance_defrost_date IS NULL" +
                 " WHERE d_uid = :d_uid";
@@ -168,7 +172,7 @@ public class StudentRepository {
 
     public float getStudentGoldCurrency(Long studentDiscordId) {
         if (!studentIsPresentInGuild(studentDiscordId))
-            throw new RuntimeException("student with id: " + studentDiscordId + " not present in the guild");
+            throw new DbException(MISSED_STUDENT_SERVER_ERROR);
 
         String sql = "SELECT d_uid, gold_balance, is_engaged, balance_defrost_date, is_in_guild" +
                 "  FROM students WHERE d_uid = :studentDiscordId";
@@ -212,7 +216,7 @@ public class StudentRepository {
 
     public Student getStudent(Long studentId) {
         if (!studentIsPresentInGuild(studentId))
-            throw new RuntimeException("student with id: " + studentId + " not present in the guild");
+            throw new DbException(MISSED_STUDENT_SERVER_ERROR);
 
         String sql = "SELECT d_uid, gold_balance, is_engaged, balance_defrost_date, is_in_guild" +
                 "  FROM students WHERE d_uid = :studentId";
@@ -224,7 +228,7 @@ public class StudentRepository {
 
     public LocalDate getStudentDefrostDate(Long studentDiscordId) {
         if (!studentIsPresentInGuild(studentDiscordId))
-            throw new RuntimeException("student with id: " + studentDiscordId + " not present in the guild");
+            throw new DbException(MISSED_STUDENT_SERVER_ERROR);
 
         String sql = "SELECT d_uid, gold_balance, is_engaged, balance_defrost_date, is_in_guild" +
                 "  FROM students WHERE d_uid = :studentDiscordId";
@@ -253,7 +257,7 @@ public class StudentRepository {
 
     public void setStudentPresenceInGuild(Long studentId, boolean isPresent) {
         if (!studentExistsByDiscordId(studentId))
-            throw new RuntimeException("no student with id: " + studentId);
+            throw new DbException(STUDENT_NOT_EXIST_ERROR);
 
         String sql = "UPDATE students " +
                 "    SET is_in_guild = :isPresent " +
@@ -268,7 +272,7 @@ public class StudentRepository {
 
     public boolean studentIsPresentInGuild(Long studentId) {
         if (!studentExistsByDiscordId(studentId))
-            throw new RuntimeException("no student with id: " + studentId);
+            throw new DbException(STUDENT_NOT_EXIST_ERROR);
 
         String sql = "SELECT COUNT(*) FROM students" +
                 " WHERE d_uid = :studentId AND is_in_guild = true";

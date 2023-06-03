@@ -10,6 +10,7 @@ import java.util.Map;
 
 import static com.learngerman.wizardbot.Wizard.PREFIX;
 import static com.learngerman.wizardbot.command.CommandName.HELP_COMMAND_NAME;
+import static com.learngerman.wizardbot.error.ErrorDescription.WRONG_FLAG_ERROR;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUsualMessage;
 
 @Component
@@ -26,14 +27,14 @@ public class HelpCommand implements Command {
     @Override
     public String getCommandDescription() {
         StringBuilder sb = new StringBuilder();
-
         sb.append("The list of all available commands:\n\n");
 
         for (Command command : commands.values()) {
             sb.append(command.getCommandDescription()).append("\n\n");
         }
 
-        sb.append("Type **" + PREFIX + HELP_COMMAND_NAME + " [command]** to get info how to use a specific command from the list");
+        sb.append("Type **" + PREFIX + HELP_COMMAND_NAME + " [command]** to get info how to use a specific command from the list.\n");
+        sb.append("Most of them use flags and parameters.");
         return sb.toString();
     }
 
@@ -58,7 +59,7 @@ public class HelpCommand implements Command {
                 return sendCommandDescriptionMessage(message, flagsDescription, command.getName());
             }
         }
-        return nonexistentCommand.process(message, null);
+        return nonexistentCommand.process(message, WRONG_FLAG_ERROR);
     }
 
     private Mono<Object> sendCommandDescriptionMessage(Message message, String description, String commandName) {

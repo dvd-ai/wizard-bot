@@ -21,6 +21,17 @@ public class ResponseMessageBuilder {
                 ;
     }
 
+    public static MessageCreateSpec buildErrorMessage(String title, String description) {
+        return MessageCreateSpec.builder()
+                .addEmbed(EmbedCreateSpec.builder()
+                        .color(Color.RED)
+                        .title(title)
+                        .description(description)
+                        .build()
+                ).build()
+                ;
+    }
+
     public static EmbedCreateSpec buildUserInfoMessage(String title, String description, String memberAvatarLink) {
 
         return EmbedCreateSpec.builder()

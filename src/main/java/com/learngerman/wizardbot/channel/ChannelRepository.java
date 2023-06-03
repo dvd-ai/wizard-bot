@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.channel;
 
+import com.learngerman.wizardbot.error.exception.DbException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -77,7 +78,7 @@ public class ChannelRepository {
 
     public Channel getChannelById(Long channelId) {
         if (!channelExistsById(channelId))
-            throw new RuntimeException("channel with id " + channelId + " not found.");
+            throw new DbException("channel with id " + channelId + " not found.");
 
         String sql = "SELECT c_id, is_for_report, is_ignored_for_currency_operations FROM channels" +
                 " WHERE c_id = :c_id";
