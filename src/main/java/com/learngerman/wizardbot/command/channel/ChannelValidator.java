@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.command.channel;
 
+import com.learngerman.wizardbot.error.exception.CommandLineException;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class ChannelValidator {
 
     private void checkTrueFalseDefiner(String lastParameter) {
         if (!lastParameter.equals("1") && !lastParameter.equals("0"))
-            throw new RuntimeException("the last parameter of the command should be '1' or '0'");
+            throw new CommandLineException("the last parameter of the command should be '1' or '0'");
     }
 
     private void checkChannels(List<String> parameters) {
@@ -33,7 +34,7 @@ public class ChannelValidator {
         try {
             Long.valueOf(channelId);
         } catch (NumberFormatException e) {
-            throw new RuntimeException("There is no such a channel " + channelId);
+            throw new CommandLineException("Wrong format of the channel " + channelId);
         }
     }
 }

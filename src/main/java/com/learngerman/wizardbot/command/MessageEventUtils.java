@@ -1,5 +1,6 @@
 package com.learngerman.wizardbot.command;
 
+import com.learngerman.wizardbot.error.exception.AuthoritiesException;
 import discord4j.common.util.Snowflake;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.PartialMember;
@@ -21,7 +22,7 @@ public class MessageEventUtils {
         ).subscribe();
 
         if (!verified[0])
-            throw new RuntimeException("You don't have authorities to use this command!");
+            throw new AuthoritiesException("Only admins can use this command!");
 
     }
 
