@@ -2,7 +2,6 @@ package com.learngerman.wizardbot.command.channel;
 
 import com.learngerman.wizardbot.channel.Channel;
 import com.learngerman.wizardbot.channel.ChannelService;
-import com.learngerman.wizardbot.command.Flag;
 import com.learngerman.wizardbot.command.NonexistentCommand;
 import discord4j.core.object.entity.Message;
 import discord4j.core.spec.EmbedCreateSpec;
@@ -15,10 +14,11 @@ import java.util.List;
 
 import static com.learngerman.wizardbot.command.MessageEventUtils.extractChannelIdFromMention;
 import static com.learngerman.wizardbot.command.MessageEventUtils.extractTrueFalseDefiner;
+import static com.learngerman.wizardbot.command.channel.ChannelSettingsFlagName.SEND_REPORT_FLAG_NAME;
 
 
 @Component
-public class ChannelSettingsReportFlag implements Flag {
+public class ChannelSettingsReportFlag implements ChannelSettingsFlag {
 
     private final NonexistentCommand nonexistentCommand;
     private final ChannelService channelService;
@@ -31,8 +31,13 @@ public class ChannelSettingsReportFlag implements Flag {
     }
 
     @Override
-    public String getFlagDescription() {
-        return null;
+    public String getDescription() {
+        return String.format("!**%s <#text-channel-mention> <1 | 0>** - sets a channel for daily reports (1 - start sending, 0 - stop sending).", SEND_REPORT_FLAG_NAME);
+    }
+
+    @Override
+    public String getName() {
+        return SEND_REPORT_FLAG_NAME;
     }
 
     @Override

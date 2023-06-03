@@ -1,6 +1,6 @@
 package com.learngerman.wizardbot.command.currency;
 
-import com.learngerman.wizardbot.command.Flag;
+import com.learngerman.wizardbot.command.CurrencyFlag;
 import com.learngerman.wizardbot.command.MemberInfo;
 import com.learngerman.wizardbot.student.StudentService;
 import discord4j.core.object.entity.Message;
@@ -11,11 +11,12 @@ import reactor.core.publisher.Mono;
 import java.util.List;
 
 import static com.learngerman.wizardbot.command.MessageEventUtils.*;
+import static com.learngerman.wizardbot.command.currency.CurrencyFlagName.CONFISCATE_FLAG_NAME;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 
 
 @Component
-public class CurrencyConfiscateFlag implements Flag {
+public class CurrencyConfiscateFlag implements CurrencyFlag {
     private final StudentService studentService;
     private final CurrencyValidator currencyValidator;
 
@@ -25,8 +26,13 @@ public class CurrencyConfiscateFlag implements Flag {
     }
 
     @Override
-    public String getFlagDescription() {
-        return null;
+    public String getDescription() {
+        return String.format("!**%s <@studentMention> <N>** - confiscates from a specific student N \uD83E\uDE99.", CONFISCATE_FLAG_NAME);
+    }
+
+    @Override
+    public String getName() {
+        return CONFISCATE_FLAG_NAME;
     }
 
     @Override

@@ -10,6 +10,8 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
+import static com.learngerman.wizardbot.command.CommandName.ADD_COMMAND_NAME;
+import static com.learngerman.wizardbot.command.MessageEventUtils.checkMessageAuthorPermissions;
 import static com.learngerman.wizardbot.currency.GoldCurrency.GOLD_START_CAPITAL;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUsualMessage;
 
@@ -24,24 +26,32 @@ public class AddCommand implements Command {
     }
 
     @Override
-    public String getDescription() {
-        return null;
+    public String getCommandDescription() {
+        return "**" + ADD_COMMAND_NAME + "**"
+                + " - adds all existing students to the 'currency bank system' (1 time only | when the bot was down and only for admins).";
+    }
+
+    @Override
+    public String getFlagsDescription() {
+        return getCommandDescription();
+    }
+
+    @Override
+    public String getName() {
+        return ADD_COMMAND_NAME;
     }
 
     @Override
     public Mono<Object> process(Message message, List<String> flags) {
         if (flags.isEmpty())
-            return nonexistentCommand.process(message, null);
+            return processNew(message);
 
-        return switch (flags.get(0)) {
-            case "new" -> processNew(message);
-            default -> nonexistentCommand.process(message, null);
-        };
-
+        return nonexistentCommand.process(message, null);
     }
 
     private Mono<Object> processNew(Message message) {
         addNewStudents(message);
+        checkMessageAuthorPermissions(message);
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(
                         constructResponseAddNewStudentsMessage())

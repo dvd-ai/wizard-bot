@@ -12,8 +12,18 @@ public class NonexistentCommand implements Command {
 
 
     @Override
-    public String getDescription() {
-        return null;
+    public String getCommandDescription() {
+        return "";
+    }
+
+    @Override
+    public String getFlagsDescription() {
+        return "";
+    }
+
+    @Override
+    public String getName() {
+        return "";
     }
 
     @Override
