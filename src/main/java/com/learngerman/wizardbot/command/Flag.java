@@ -7,7 +7,9 @@ import java.util.List;
 
 public interface Flag {
 
-    String getFlagDescription();
+    String getDescription();
+
+    String getName();
 
     Mono<Object> process(Message message, List<String> parameters);
 
