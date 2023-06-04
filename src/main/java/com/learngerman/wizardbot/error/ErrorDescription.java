@@ -30,6 +30,7 @@ public final class ErrorDescription {
             """;
 
     public static final String KANAL_NOT_EXIST_ERROR = "Dieser Kanal existiert nicht!";
+
     private ErrorDescription() {
     }
 }

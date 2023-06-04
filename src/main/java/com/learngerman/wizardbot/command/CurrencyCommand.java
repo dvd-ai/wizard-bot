@@ -1,6 +1,5 @@
 package com.learngerman.wizardbot.command;
 
-import com.learngerman.wizardbot.student.StudentService;
 import discord4j.core.object.entity.Message;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
