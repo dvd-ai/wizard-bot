@@ -19,7 +19,7 @@ public class DayEvent {
         this.currencyReport = currencyReport;
     }
 
-    @Scheduled(cron = "0 * * * * *", zone = "Europe/Berlin")
+    @Scheduled(cron = "0 0 0 * * ?", zone = "Europe/Berlin")
     public void process() {
         studentService.decreaseAllStudentsGoldCurrencyBy(GOLD_DAY_TAX);
         currencyReport.send();
