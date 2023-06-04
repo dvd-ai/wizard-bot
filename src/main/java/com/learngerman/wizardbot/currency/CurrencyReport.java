@@ -3,6 +3,7 @@ package com.learngerman.wizardbot.currency;
 import com.learngerman.wizardbot.channel.Channel;
 import com.learngerman.wizardbot.channel.ChannelService;
 import com.learngerman.wizardbot.command.MemberInfo;
+import com.learngerman.wizardbot.event.MessageListenerManager;
 import com.learngerman.wizardbot.student.StudentService;
 import discord4j.common.util.Snowflake;
 import discord4j.core.GatewayDiscordClient;
@@ -11,9 +12,11 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Message;
 import discord4j.core.object.entity.channel.MessageChannel;
 import org.springframework.stereotype.Component;
+import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -33,12 +36,14 @@ public class CurrencyReport {
     private final ChannelService channelService;
     private final StudentService studentService;
     private final GatewayDiscordClient client;
+    private final MessageListenerManager listenerManager;
 
 
-    public CurrencyReport(ChannelService channelService, StudentService studentService, GatewayDiscordClient client) {
+    public CurrencyReport(ChannelService channelService, StudentService studentService, GatewayDiscordClient client, MessageListenerManager listenerManager) {
         this.channelService = channelService;
         this.studentService = studentService;
         this.client = client;
+        this.listenerManager = listenerManager;
     }
 
 
@@ -69,13 +74,18 @@ public class CurrencyReport {
     private void processStudentsInfo(Mono<List<MemberInfo>> studentInfoMono, Snowflake channelId, Mono<Guild> guildMono) {
         final int[] totalPageAmount = new int[1];
 
-        studentInfoMono.flatMap(studentInfoList -> {
+        Mono<Message> messageMono = studentInfoMono.flatMap(studentInfoList -> {
             Integer studentAmountWithNoCurrency = studentService.calculateStudentsWithZeroOrLessCurrency();
             totalPageAmount[0] = (int) Math.ceil((double) studentAmountWithNoCurrency / PAGE_SIZE);
             String reportContent = formatReportDescription(studentInfoList, 0);
 
             return createPagedMessage(channelId, reportContent, getTitle(), 1, totalPageAmount[0], client);
-        }).subscribe(message -> handleButtonClicks(message, guildMono, totalPageAmount[0]).subscribe());
+        });
+
+        messageMono.doOnNext(message -> {
+            Disposable dis = handleButtonClicks(message, guildMono, totalPageAmount[0]).subscribe();
+            listenerManager.disposeListener(message, dis, Duration.ofHours(24));
+        }).subscribe();
     }
 
     private Flux<Void> handleButtonClicks(Message reportMessage, Mono<Guild> guildMono, int totalPageAmount) {

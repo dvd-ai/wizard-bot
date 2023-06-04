@@ -3,6 +3,7 @@ package com.learngerman.wizardbot.command.currency;
 import com.learngerman.wizardbot.command.CurrencyFlag;
 import com.learngerman.wizardbot.command.MemberInfo;
 import com.learngerman.wizardbot.command.NonexistentCommand;
+import com.learngerman.wizardbot.event.MessageListenerManager;
 import com.learngerman.wizardbot.student.Student;
 import com.learngerman.wizardbot.student.StudentComparator;
 import com.learngerman.wizardbot.student.StudentService;
@@ -13,9 +14,11 @@ import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Message;
 import discord4j.core.spec.EmbedCreateSpec;
 import org.springframework.stereotype.Component;
+import reactor.core.Disposable;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -40,10 +43,13 @@ public class CurrencyInfoFlag implements CurrencyFlag {
     private final NonexistentCommand nonexistentCommand;
     private final StudentService studentService;
 
-    public CurrencyInfoFlag(CurrencyValidator currencyValidator, NonexistentCommand nonexistentCommand, StudentService studentService) {
+    private final MessageListenerManager listenerManager;
+
+    public CurrencyInfoFlag(CurrencyValidator currencyValidator, NonexistentCommand nonexistentCommand, StudentService studentService, MessageListenerManager listenerManager) {
         this.currencyValidator = currencyValidator;
         this.nonexistentCommand = nonexistentCommand;
         this.studentService = studentService;
+        this.listenerManager = listenerManager;
     }
 
 
@@ -81,13 +87,18 @@ public class CurrencyInfoFlag implements CurrencyFlag {
     private void processStudentsInfo(Mono<Map<Student, MemberInfo>> studentMap, Snowflake channelId, Mono<Guild> guildMono, GatewayDiscordClient client) {
         final int[] totalPageAmount = new int[1];
 
-        studentMap.flatMap(studentsMap -> {
+        Mono<Message> messageMono = studentMap.flatMap(studentsMap -> {
             Integer studentsAmount = studentService.calculateStudents();
             totalPageAmount[0] = (int) Math.ceil((double) studentsAmount / PAGE_SIZE);
             String pageDescription = formatPageDescription(studentsMap, 0);
 
             return createPagedMessage(channelId, pageDescription, TITLE_ALL, 1, totalPageAmount[0], client);
-        }).subscribe(message -> handleButtonClicks(message, guildMono, totalPageAmount[0]).subscribe());
+        });
+
+        messageMono.doOnNext(message -> {
+            Disposable dis = handleButtonClicks(message, guildMono, totalPageAmount[0]).subscribe();
+            listenerManager.disposeListener(message, dis, Duration.ofMinutes(30));
+        }).subscribe();
     }
 
     private Flux<Void> handleButtonClicks(Message reportMessage, Mono<Guild> guildMono, int totalPageAmount) {
