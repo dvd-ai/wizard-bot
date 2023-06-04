@@ -1,6 +1,5 @@
 package com.learngerman.wizardbot.command;
 
-import com.learngerman.wizardbot.student.StudentService;
 import discord4j.core.object.entity.Message;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -30,7 +29,7 @@ public class CurrencyCommand implements Command {
     @Override
     public String getCommandDescription() {
         return "**" + CURRENCY_COMMAND_NAME + "**" +
-                " - helps you to manipulate with the currency (for admins only); to provide members' balance of 🪙.";
+                " - hilft Ihnen, mit der Währung zu manipulieren (nur für Administratoren); um den Mitgliedern einen Saldo von \uD83E\uDE99 bereitzustellen.";
     }
 
     @Override
@@ -38,7 +37,7 @@ public class CurrencyCommand implements Command {
 
         StringBuilder sb = new StringBuilder();
 
-        sb.append("The list of all available **'").append(CURRENCY_COMMAND_NAME).append("'** flags:\n\n");
+        sb.append("Die Liste aller verfügbaren **'").append(CURRENCY_COMMAND_NAME).append("'** Flaggen:\n\n");
 
         for (CurrencyFlag currencyFlag : currencyFlags.values()) {
             sb.append(currencyFlag.getDescription()).append("\n\n");

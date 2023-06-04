@@ -19,7 +19,7 @@ public class ChannelValidator {
 
     private void checkTrueFalseDefiner(String lastParameter) {
         if (!lastParameter.equals("1") && !lastParameter.equals("0"))
-            throw new CommandLineException("the last parameter of the command should be '1' or '0'");
+            throw new CommandLineException("Der letzte Parameter des Befehls sollte ‚1‘ oder ‚0‘ sein.");
     }
 
     private void checkChannels(List<String> parameters) {
@@ -34,7 +34,7 @@ public class ChannelValidator {
         try {
             Long.valueOf(channelId);
         } catch (NumberFormatException e) {
-            throw new CommandLineException("Wrong format of the channel " + channelId);
+            throw new CommandLineException("Falsches Format des Kanals " + channelId);
         }
     }
 }

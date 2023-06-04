@@ -6,6 +6,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+import static com.learngerman.wizardbot.Wizard.PREFIX;
+
 @Component
 public class MessageValidator {
 
@@ -14,7 +16,7 @@ public class MessageValidator {
     }
 
     private boolean startsWithBotPrefix(String content) {
-        return content.startsWith(">");
+        return content.startsWith(PREFIX);
     }
 
     public boolean hasAuthor(Message message) {

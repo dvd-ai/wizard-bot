@@ -12,7 +12,7 @@ public class NonexistentCommand {
     public Mono<Object> process(Message message, String errorDescription) {
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(
-                        buildErrorMessage("Error!", errorDescription))
+                        buildErrorMessage("Fehler!", errorDescription))
                 );
     }
 }

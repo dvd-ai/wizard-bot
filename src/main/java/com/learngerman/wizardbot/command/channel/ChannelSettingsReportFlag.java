@@ -32,7 +32,7 @@ public class ChannelSettingsReportFlag implements ChannelSettingsFlag {
 
     @Override
     public String getDescription() {
-        return String.format("!**%s <#text-channel-mention> <1 | 0>** - sets a channel for daily reports (1 - start sending, 0 - stop sending).", SEND_REPORT_FLAG_NAME);
+        return String.format("!**%s <#Erwähnung von einem Textkanal> <1 | 0>** - legt einen Kanal fürs Senden von Berichten fest (1 - Senden anfangen, 0 - Senden beenden).", SEND_REPORT_FLAG_NAME);
     }
 
     @Override

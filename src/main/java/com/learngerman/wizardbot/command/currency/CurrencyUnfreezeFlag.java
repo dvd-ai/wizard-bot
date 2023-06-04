@@ -28,7 +28,7 @@ public class CurrencyUnfreezeFlag implements CurrencyFlag {
     @Override
     public String getDescription() {
         return String.format("""
-                !**%s <@studentMention>** - unfreezes a currency balance of a specific student.
+                !**%s <@Erwähnung von einem Studenten>** - taut einen Währungssaldo eines bestimmten Studenten auf.
                 """, UNFREEZE_FLAG_NAME);
     }
 

@@ -50,8 +50,8 @@ public class CurrencyInfoFlag implements CurrencyFlag {
     @Override
     public String getDescription() {
         return String.format("""
-                **%s <all>** - gets a 'leaderboard' and a currency status of all students.
-                **%s <@studentMention>** - gets a currency status of a specific student.
+                **%s <alle>** - erhält eine „Rangliste“ und einen Währungsstatus aller Studenten.
+                **%s <@Erwähnung von einem Studenten>** - erhält einen Währungsstatus eines bestimmten Studenten.
                 """, INFO_FLAG_NAME, INFO_FLAG_NAME);
     }
 
@@ -66,7 +66,7 @@ public class CurrencyInfoFlag implements CurrencyFlag {
             return nonexistentCommand.process(message, null);
 
         return switch (parameters.get(0)) {
-            case "all" -> processAll(message);
+            case "alle" -> processAll(message);
             default -> processSpecifiedStudent(message, parameters);
         };
     }

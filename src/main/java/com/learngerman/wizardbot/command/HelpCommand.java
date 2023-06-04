@@ -27,14 +27,14 @@ public class HelpCommand implements Command {
     @Override
     public String getCommandDescription() {
         StringBuilder sb = new StringBuilder();
-        sb.append("The list of all available commands:\n\n");
+        sb.append("Die Liste aller verfügbaren Befehle:\n\n");
 
         for (Command command : commands.values()) {
             sb.append(command.getCommandDescription()).append("\n\n");
         }
 
-        sb.append("Type **" + PREFIX + HELP_COMMAND_NAME + " [command]** to get info how to use a specific command from the list.\n");
-        sb.append("Most of them use flags and parameters.");
+        sb.append("Geben Sie **" + PREFIX + HELP_COMMAND_NAME + " [Befehl]** ein, um Informationen zur Verwendung eines bestimmten Befehls aus der Liste zu erhalten.\n");
+        sb.append("Die meisten von ihnen verwenden Flaggen und Parameter.");
         return sb.toString();
     }
 
@@ -64,11 +64,11 @@ public class HelpCommand implements Command {
 
     private Mono<Object> sendCommandDescriptionMessage(Message message, String description, String commandName) {
         return message.getChannel()
-                .flatMap(messageChannel -> messageChannel.createMessage(buildUsualMessage("Command '" + commandName + "'", description)));
+                .flatMap(messageChannel -> messageChannel.createMessage(buildUsualMessage("Befehl '" + commandName + "'", description)));
     }
 
     private Mono<Object> processWithNoParametersOrFlags(Message message) {
         return message.getChannel()
-                .flatMap(messageChannel -> messageChannel.createMessage(buildUsualMessage("Help", getCommandDescription())));
+                .flatMap(messageChannel -> messageChannel.createMessage(buildUsualMessage("Hilfe", getCommandDescription())));
     }
 }

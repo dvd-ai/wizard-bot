@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static com.learngerman.wizardbot.Wizard.PREFIX;
+
 public class CommandUtils {
 
     private CommandUtils() {
     }
 
     public static String polishCommand(String content) {
-        return content.toLowerCase().replaceFirst(">", "");
+        return content.toLowerCase().replaceFirst(PREFIX, "");
     }
 
     public static List<String> getNextCommandPartsToParse(List<String> commandParts) {

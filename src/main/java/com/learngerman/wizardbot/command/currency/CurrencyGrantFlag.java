@@ -15,6 +15,7 @@ import java.util.List;
 import static com.learngerman.wizardbot.command.CommandUtils.getNextCommandPartsToParse;
 import static com.learngerman.wizardbot.command.MessageEventUtils.*;
 import static com.learngerman.wizardbot.command.currency.CurrencyFlagName.GRANT_FLAG_NAME;
+import static com.learngerman.wizardbot.error.ErrorDescription.NOT_ENOUGH_PARAMETER_AMOUNT_ERROR;
 import static com.learngerman.wizardbot.util.NumberUtil.isPositiveRealNumber;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUsualMessage;
@@ -34,8 +35,8 @@ public class CurrencyGrantFlag implements CurrencyFlag {
 
     @Override
     public String getDescription() {
-        return String.format("!**%s <all> <N>** - grants all students N \uD83E\uDE99.\n" +
-                "!**%s <@studentMention> <N>** - grants a specific student N \uD83E\uDE99.", GRANT_FLAG_NAME, GRANT_FLAG_NAME);
+        return String.format("!**%s <allen> <N>** - gewährt alle Studenten N \uD83E\uDE99. N >= 0\n" +
+                "!**%s <@Erwähnung von einem Studenten> <N>** - gewährt einem bestimmten Studenten N \uD83E\uDE99. N >= 0", GRANT_FLAG_NAME, GRANT_FLAG_NAME);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class CurrencyGrantFlag implements CurrencyFlag {
             return nonexistentCommand.process(message, null);
 
         return switch (parameters.get(0)) {
-            case "all" -> processAll(message, getNextCommandPartsToParse(parameters));//check role of the initiator
+            case "allen" -> processAll(message, getNextCommandPartsToParse(parameters));
             default -> processSpecifiedStudent(message, parameters);
         };
     }
@@ -80,7 +81,7 @@ public class CurrencyGrantFlag implements CurrencyFlag {
 
     private Mono<Object> processAll(Message message, List<String> parameters) {
         if (parameters.isEmpty() || !isPositiveRealNumber(parameters.get(0)))
-            return nonexistentCommand.process(message, null);
+            return nonexistentCommand.process(message, NOT_ENOUGH_PARAMETER_AMOUNT_ERROR);
 
         float grantAmount = Float.parseFloat(parameters.get(0));
         studentService.grantAllStudentsGoldCurrency(grantAmount);

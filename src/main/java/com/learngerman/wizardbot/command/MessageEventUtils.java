@@ -22,7 +22,7 @@ public class MessageEventUtils {
         ).subscribe();
 
         if (!verified[0])
-            throw new AuthoritiesException("Only admins can use this command!");
+            throw new AuthoritiesException("Nur Administratoren dürfen es verwenden!");
 
     }
 

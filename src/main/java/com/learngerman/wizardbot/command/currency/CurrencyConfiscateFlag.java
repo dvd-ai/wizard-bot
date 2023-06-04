@@ -27,7 +27,7 @@ public class CurrencyConfiscateFlag implements CurrencyFlag {
 
     @Override
     public String getDescription() {
-        return String.format("!**%s <@studentMention> <N>** - confiscates from a specific student N \uD83E\uDE99.", CONFISCATE_FLAG_NAME);
+        return String.format("!**%s <@Erwähnung von einem Studenten> <N>** - beschlagnahmt von einem bestimmten Studenten N \uD83E\uDE99.", CONFISCATE_FLAG_NAME);
     }
 
     @Override
