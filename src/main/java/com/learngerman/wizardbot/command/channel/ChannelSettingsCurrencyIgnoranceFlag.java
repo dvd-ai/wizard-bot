@@ -31,7 +31,10 @@ public class ChannelSettingsCurrencyIgnoranceFlag implements ChannelSettingsFlag
 
     @Override
     public String getDescription() {
-        return String.format("!**%s <#text-channel-mention> <1 | 0>** - sets a channel for currency accumulation ignorance (1 - start ignoring, 0 - stop ignoring).", CURRENCY_IGNORANCE_FLAG_NAME);
+        return String.format(
+                "!**%s <#Erwähnung von einem Textkanal> <1 | 0>** - legt einen Kanal für die Ignoranz der Währungsakkumulation fest (1 – Ignoranz anfangen, 0 – Ignoranz beenden).",
+                CURRENCY_IGNORANCE_FLAG_NAME
+        );
     }
 
     @Override

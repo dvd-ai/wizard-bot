@@ -26,7 +26,7 @@ public class AddCommand implements Command {
     @Override
     public String getCommandDescription() {
         return "**" + ADD_COMMAND_NAME + "**"
-                + " - adds all existing students to the 'currency bank system' (1 time only | when the bot was down and only for admins).";
+                + " - fügt alle vorhandenen Studenten zum „Währungsbanksystem“ hinzu (nur einmal | als der Bot nicht verfügbar war und nur für Administratoren).";
     }
 
     @Override

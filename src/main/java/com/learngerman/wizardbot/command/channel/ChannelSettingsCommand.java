@@ -31,7 +31,7 @@ public class ChannelSettingsCommand implements Command {
     @Override
     public String getCommandDescription() {
         return "**" + CHANNEL_SETTINGS_COMMAND_NAME + "**"
-                + " - tunes channel configuration for the currency system (only for admins).";
+                + " - passt die Kanalkonfiguration fürs Währungssystem an (nur für Administratoren).";
 
     }
 
@@ -39,7 +39,7 @@ public class ChannelSettingsCommand implements Command {
     public String getFlagsDescription() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("The list of all available '**").append(CHANNEL_SETTINGS_COMMAND_NAME).append("'** flags:\n\n");
+        sb.append("Die Liste aller verfügbaren '**").append(CHANNEL_SETTINGS_COMMAND_NAME).append("'** Flags:\n\n");
 
         for (ChannelSettingsFlag channelSettingsFlag : channelSettingsFlags.values()) {
             sb.append(channelSettingsFlag.getDescription()).append("\n\n");
