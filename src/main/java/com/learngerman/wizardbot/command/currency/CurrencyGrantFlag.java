@@ -15,7 +15,7 @@ import java.util.List;
 import static com.learngerman.wizardbot.command.CommandUtils.getNextCommandPartsToParse;
 import static com.learngerman.wizardbot.command.MessageEventUtils.*;
 import static com.learngerman.wizardbot.command.currency.CurrencyFlagName.GRANT_FLAG_NAME;
-import static com.learngerman.wizardbot.error.ErrorDescription.NOT_ENOUGH_PARAMETER_AMOUNT_ERROR;
+import static com.learngerman.wizardbot.error.ErrorDescription.*;
 import static com.learngerman.wizardbot.util.NumberUtil.isPositiveRealNumber;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUserInfoMessage;
 import static com.learngerman.wizardbot.util.ResponseMessageBuilder.buildUsualMessage;
@@ -35,7 +35,7 @@ public class CurrencyGrantFlag implements CurrencyFlag {
 
     @Override
     public String getDescription() {
-        return String.format("!**%s <allen> <N>** - gewährt alle Studenten N \uD83E\uDE99. N >= 0\n" +
+        return String.format("!**%s <allen> <N>** - gewährt allen Studenten N \uD83E\uDE99. N >= 0%n%n" +
                 "!**%s <@Erwähnung von einem Studenten> <N>** - gewährt einem bestimmten Studenten N \uD83E\uDE99. N >= 0", GRANT_FLAG_NAME, GRANT_FLAG_NAME);
     }
 
@@ -47,7 +47,7 @@ public class CurrencyGrantFlag implements CurrencyFlag {
     @Override
     public Mono<Object> process(Message message, List<String> parameters) {
         if (parameters.isEmpty())
-            return nonexistentCommand.process(message, null);
+            return nonexistentCommand.process(message, NO_PARAMETERS_ERROR);
 
         return switch (parameters.get(0)) {
             case "allen" -> processAll(message, getNextCommandPartsToParse(parameters));
@@ -74,14 +74,17 @@ public class CurrencyGrantFlag implements CurrencyFlag {
         return buildUserInfoMessage(
                 "Zuschuss!",
                 "Das Geld von @" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() +
-                        " wurde erfolgreich erhöht (" + grantAmount + "🪙)!",
+                        " wurde erfolgreich erhöht\n (**" + String.format("%.2f", grantAmount) + "** 🪙)!",
                 memberInfo.getAvatar()
         );
     }
 
     private Mono<Object> processAll(Message message, List<String> parameters) {
-        if (parameters.isEmpty() || !isPositiveRealNumber(parameters.get(0)))
+        if (parameters.isEmpty())
             return nonexistentCommand.process(message, NOT_ENOUGH_PARAMETER_AMOUNT_ERROR);
+
+        if (!isPositiveRealNumber(parameters.get(0)))
+            return nonexistentCommand.process(message, NUMBER_FORMAT_ERROR);
 
         float grantAmount = Float.parseFloat(parameters.get(0));
         studentService.grantAllStudentsGoldCurrency(grantAmount);
@@ -97,7 +100,7 @@ public class CurrencyGrantFlag implements CurrencyFlag {
     private MessageCreateSpec constructResponseGrantAllMessage(float grantAmount) {
         return buildUsualMessage(
                 "Zuschuss!",
-                "Alle Studenten haben " + grantAmount + "🪙 bekommen!"
+                "Alle Studenten haben **" + String.format("%.2f", grantAmount) + "** 🪙 bekommen!"
         );
     }
 }
