@@ -58,7 +58,7 @@ public class CurrencyInfoFlag implements CurrencyFlag {
     public String getDescription() {
         return String.format("""
                 **%s <alle>** - erhält eine „Rangliste“ und einen Währungsstatus aller Studenten.
-                
+                                
                 **%s <@Erwähnung von einem Studenten>** - erhält einen Währungsstatus eines bestimmten Studenten.
                 """, INFO_FLAG_NAME, INFO_FLAG_NAME);
     }
