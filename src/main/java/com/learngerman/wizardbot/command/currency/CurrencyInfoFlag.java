@@ -29,6 +29,7 @@ import static com.learngerman.wizardbot.Wizard.PAGE_SIZE;
 import static com.learngerman.wizardbot.command.MessageEventUtils.extractDiscordIdFromMention;
 import static com.learngerman.wizardbot.command.MessageEventUtils.getMemberInfo;
 import static com.learngerman.wizardbot.command.currency.CurrencyFlagName.INFO_FLAG_NAME;
+import static com.learngerman.wizardbot.error.ErrorDescription.NO_PARAMETERS_ERROR;
 import static com.learngerman.wizardbot.util.ButtonUtil.*;
 import static com.learngerman.wizardbot.util.GuildUtil.getStudentsInfosMapMono;
 import static com.learngerman.wizardbot.util.PageUtils.createEditedPagedMessage;
@@ -57,6 +58,7 @@ public class CurrencyInfoFlag implements CurrencyFlag {
     public String getDescription() {
         return String.format("""
                 **%s <alle>** - erhält eine „Rangliste“ und einen Währungsstatus aller Studenten.
+                
                 **%s <@Erwähnung von einem Studenten>** - erhält einen Währungsstatus eines bestimmten Studenten.
                 """, INFO_FLAG_NAME, INFO_FLAG_NAME);
     }
@@ -69,7 +71,7 @@ public class CurrencyInfoFlag implements CurrencyFlag {
     @Override
     public Mono<Object> process(Message message, List<String> parameters) {
         if (parameters.isEmpty())
-            return nonexistentCommand.process(message, null);
+            return nonexistentCommand.process(message, NO_PARAMETERS_ERROR);
 
         return switch (parameters.get(0)) {
             case "alle" -> processAll(message);
@@ -150,7 +152,7 @@ public class CurrencyInfoFlag implements CurrencyFlag {
     private StringBuilder appendStudentInfo(StringBuilder sb, MemberInfo studentInfo, Student student) {
         return sb.append(studentInfo.getUsername()).append("#")
                 .append(studentInfo.getDiscriminator()).append(" ")
-                .append(student.getGoldBalance()).append("  🪙");
+                .append(String.format("**%.2f", student.getGoldBalance())).append("**  🪙");
     }
 
     private StringBuilder appendDefrostDate(StringBuilder sb, LocalDate defrostDate) {
@@ -192,7 +194,7 @@ public class CurrencyInfoFlag implements CurrencyFlag {
                 "Währungssaldo",
                 "@" + memberInfo.getUsername()
                         + "#" + memberInfo.getDiscriminator()
-                        + "\n" + String.format("%.2f", student.getGoldBalance()) + " 🪙\n"
+                        + "\n" + String.format("**%.2f", student.getGoldBalance()) + "** 🪙\n"
                         + defrostDateStr,
                 memberInfo.getAvatar()
         );
