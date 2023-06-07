@@ -39,7 +39,7 @@ public class ChannelSettingsCommand implements Command {
     public String getFlagsDescription() {
         StringBuilder sb = new StringBuilder();
 
-        sb.append("Die Liste aller verfügbaren '**").append(CHANNEL_SETTINGS_COMMAND_NAME).append("'** Flags:\n\n");
+        sb.append("Die Liste aller verfügbaren '**").append(CHANNEL_SETTINGS_COMMAND_NAME).append("'** Flaggen:\n\n");
 
         for (ChannelSettingsFlag channelSettingsFlag : channelSettingsFlags.values()) {
             sb.append(channelSettingsFlag.getDescription()).append("\n\n");
@@ -60,7 +60,6 @@ public class ChannelSettingsCommand implements Command {
             return nonexistentCommand.process(message, NO_FLAG_ERROR);
 
         for (ChannelSettingsFlag channelSettingsFlag : channelSettingsFlags.values()) {
-            System.out.println(channelSettingsFlag.getName());
             if (channelSettingsFlag.getName().equals(flags.get(0))) {
                 return channelSettingsFlag.process(message, getNextCommandPartsToParse(flags));
             }
