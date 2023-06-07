@@ -13,8 +13,8 @@ public final class ErrorDescription {
 
     public static final String NO_FLAG_ERROR = "Dieser Befehl erfordert eine Flagge." + HELP_COMMAND_ADVICE;
     public static final String WRONG_COMMAND_ERROR = String.format(
-            "Der Befehl, den Sie angegeben haben, existiert nicht! Verwenden Sie **%s** um die Liste aller verfügbaren Befehle zu erhalten.",
-            HELP_COMMAND_NAME
+            "Der Befehl, den Sie angegeben haben, existiert nicht! Verwenden Sie **%s%s** um die Liste aller verfügbaren Befehle zu erhalten.",
+            PREFIX, HELP_COMMAND_NAME
     );
     public static final String MISSED_STUDENT_SERVER_ERROR = "Der Student ist im Server nicht!";
     public static final String STUDENT_NOT_EXIST_ERROR = "Solcher Student existiert nicht!";
@@ -29,7 +29,7 @@ public final class ErrorDescription {
                     nach Zeitzone Berlin/Europa festzulegen!
             """;
 
-    public static final String KANAL_NOT_EXIST_ERROR = "Dieser Kanal existiert nicht!";
+    public static final String CHANNEL_NOT_EXIST_ERROR = "Dieser Kanal existiert nicht!";
 
     private ErrorDescription() {
     }
