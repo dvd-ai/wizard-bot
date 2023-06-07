@@ -29,6 +29,7 @@ public class CurrencyUnfreezeFlag implements CurrencyFlag {
     public String getDescription() {
         return String.format("""
                 !**%s <@Erwähnung von einem Studenten>** - taut einen Währungssaldo eines bestimmten Studenten auf.
+                
                 """, UNFREEZE_FLAG_NAME);
     }
 
