@@ -154,7 +154,7 @@ public class StudentRepository {
         if (!studentIsPresentInGuild(studentDiscordId))
             throw new DbException(MISSED_STUDENT_SERVER_ERROR);
 
-        String sql = "UPDATE students SET balance_defrost_date IS NULL" +
+        String sql = "UPDATE students SET balance_defrost_date = NULL" +
                 " WHERE d_uid = :d_uid";
 
         SqlParameterSource sqlParameterSource = new MapSqlParameterSource()

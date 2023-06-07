@@ -10,7 +10,7 @@ import javax.sql.DataSource;
 import java.util.List;
 import java.util.Objects;
 
-import static com.learngerman.wizardbot.error.ErrorDescription.KANAL_NOT_EXIST_ERROR;
+import static com.learngerman.wizardbot.error.ErrorDescription.CHANNEL_NOT_EXIST_ERROR;
 
 @Repository
 public class ChannelRepository {
@@ -80,7 +80,7 @@ public class ChannelRepository {
 
     public Channel getChannelById(Long channelId) {
         if (!channelExistsById(channelId))
-            throw new DbException(KANAL_NOT_EXIST_ERROR);
+            throw new DbException(CHANNEL_NOT_EXIST_ERROR);
 
         String sql = "SELECT c_id, is_for_report, is_ignored_for_currency_operations FROM channels" +
                 " WHERE c_id = :c_id";

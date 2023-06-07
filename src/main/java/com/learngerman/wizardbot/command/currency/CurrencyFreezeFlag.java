@@ -31,7 +31,7 @@ public class CurrencyFreezeFlag implements CurrencyFlag {
 
     @Override
     public String getDescription() {
-        return String.format("!**%s <@Erwähnung von einem Studenten> <ein Datum im Format: tt.mm.jjjj>** - friert den Währungssaldo eines bestimmten Studenten bis zum Datum ein.", FREEZE_FLAG_NAME);
+        return String.format("!**%s <@Erwähnung von einem Studenten> <ein Datum im Format: tt.mm.jjjj>** - friert den Währungssaldo eines bestimmten Studenten bis zum Datum ein.%n", FREEZE_FLAG_NAME);
     }
 
     @Override
