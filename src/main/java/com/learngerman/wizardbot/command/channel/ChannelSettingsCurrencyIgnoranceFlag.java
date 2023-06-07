@@ -12,9 +12,9 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-import static com.learngerman.wizardbot.command.MessageEventUtils.extractChannelIdFromMention;
-import static com.learngerman.wizardbot.command.MessageEventUtils.extractTrueFalseDefiner;
+import static com.learngerman.wizardbot.command.MessageEventUtils.*;
 import static com.learngerman.wizardbot.command.channel.ChannelSettingsFlagName.CURRENCY_IGNORANCE_FLAG_NAME;
+import static com.learngerman.wizardbot.error.ErrorDescription.NO_PARAMETERS_ERROR;
 
 @Component
 public class ChannelSettingsCurrencyIgnoranceFlag implements ChannelSettingsFlag {
@@ -32,7 +32,7 @@ public class ChannelSettingsCurrencyIgnoranceFlag implements ChannelSettingsFlag
     @Override
     public String getDescription() {
         return String.format(
-                "!**%s <#Erwähnung von einem Textkanal> <1 | 0>** - legt einen Kanal für die Ignoranz der Währungsakkumulation fest (1 – Ignoranz anfangen, 0 – Ignoranz beenden).",
+                "!**%s <#Erwähnung von einem Textkanal> <1 | 0>** - legt einen Kanal für die Ignoranz der Währungsakkumulation fest (1 – Ignoranz anfangen, 0 – Ignoranz beenden).%n",
                 CURRENCY_IGNORANCE_FLAG_NAME
         );
     }
@@ -45,9 +45,11 @@ public class ChannelSettingsCurrencyIgnoranceFlag implements ChannelSettingsFlag
     @Override
     public Mono<Object> process(Message message, List<String> parameters) {
         if (parameters.isEmpty())
-            return nonexistentCommand.process(message, null);
+            return nonexistentCommand.process(message, NO_PARAMETERS_ERROR);
 
-        channelValidator.validate(parameters);
+        channelValidator.validate(parameters, message);
+        checkMessageAuthorPermissions(message);
+
         processChannels(parameters);
         return message.getChannel()
                 .flatMap(messageChannel -> messageChannel.createMessage(
