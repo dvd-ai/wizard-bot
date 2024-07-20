@@ -1,6 +1,10 @@
 # Wizard Discord Bot
 
-## Screenschots
+## Table of Contents
+
+- [Screenshots](#screenshots)
+
+## Screenshots
 
 ### Getting the curency balance
 <p>
