@@ -27,7 +27,6 @@ public class GuildUtil {
                 .onErrorResume(ClientException.isStatusCode(404), e -> Mono.empty())
                 .map(member -> new MemberInfo(
                         member.getUsername(),
-                        member.getDiscriminator(),
                         member.getAvatarUrl()
                 )).collectList();
     }
@@ -38,7 +37,6 @@ public class GuildUtil {
                         .onErrorResume(ClientException.isStatusCode(404), e -> Mono.empty())
                         .map(member -> Tuples.of(student, new MemberInfo(
                                 member.getUsername(),
-                                member.getDiscriminator(),
                                 member.getAvatarUrl()
                         )))
                 ))
