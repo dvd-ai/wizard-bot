@@ -1,8 +1,9 @@
-# Wizard Discord Bot
+# Wizard
 
 ## Table of Contents
 
 - [Screenshots](#screenshots)
+- [Description](#description)
 
 ## Screenshots
 
@@ -33,4 +34,12 @@
   <img style="max-width: 100%; height: auto;" alt="Tagesbericht " src="https://github.com/user-attachments/assets/0141216a-844a-42be-99ee-475b2a51ecf5">
 </p>
 
-and much more!
+## Description
+- a discord bot that tracks activity of members/students in a private server, using currency system
+- users earn currency by chatting and participating in voice chats
+- users pay taxes each day to improve motivation to stay active in the server
+- admins can specify text channels for currency system and perform currency operations, including un- / freezing user's balance. In this case the user's balance is "immune" to the daily taxes, daily reports and isn't able to earn the currency. 
+- a daily report about the inactive users, whose currency balance equals 0 or less, can be sent in a specified text channel
+- the ui is in German
+  
+
