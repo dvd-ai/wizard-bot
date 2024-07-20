@@ -58,7 +58,7 @@ public class CurrencyConfiscateFlag implements CurrencyFlag {
     private EmbedCreateSpec constructResponseConfiscateMessage(float confiscateAmount, MemberInfo memberInfo) {
         return buildUserInfoMessage(
                 "Beschlagnahmung",
-                "Das Geld von @" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() +
+                "Das Geld von @" + memberInfo.getUsername() +
                         " wurde erfolgreich beschlagnahmt\n (**" + String.format("%.2f", confiscateAmount) + "** 🪙)!",
                 memberInfo.getAvatar()
         );
