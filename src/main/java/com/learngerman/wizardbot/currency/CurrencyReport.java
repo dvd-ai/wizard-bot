@@ -116,8 +116,7 @@ public class CurrencyReport {
 
         for (int i = 0; i < studentInfoList.size(); i++) {
             reportDescription.append("**").append(ten * 10 + i + 1).append(". **")
-                    .append(studentInfoList.get(i).getUsername()).append("#")
-                    .append(studentInfoList.get(i).getDiscriminator())
+                    .append(studentInfoList.get(i).getUsername())
                     .append("\n");
 
         }
