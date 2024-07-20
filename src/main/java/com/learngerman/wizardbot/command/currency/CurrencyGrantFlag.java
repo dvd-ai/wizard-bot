@@ -73,7 +73,7 @@ public class CurrencyGrantFlag implements CurrencyFlag {
     private EmbedCreateSpec constructResponseStudentGrantMessage(float grantAmount, MemberInfo memberInfo) {
         return buildUserInfoMessage(
                 "Zuschuss!",
-                "Das Geld von @" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() +
+                "Das Geld von @" + memberInfo.getUsername() +
                         " wurde erfolgreich erhöht\n (**" + String.format("%.2f", grantAmount) + "** 🪙)!",
                 memberInfo.getAvatar()
         );
