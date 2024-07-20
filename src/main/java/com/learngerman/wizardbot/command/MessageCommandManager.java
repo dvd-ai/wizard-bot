@@ -1,0 +1,52 @@
+package com.learngerman.wizardbot.command;
+
+import com.learngerman.wizardbot.error.exception.WizardBotException;
+import discord4j.core.object.entity.Message;
+import org.springframework.context.ApplicationContext;
+import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
+
+import java.util.List;
+import java.util.Map;
+
+import static com.learngerman.wizardbot.command.CommandUtils.*;
+import static com.learngerman.wizardbot.error.ErrorDescription.WRONG_COMMAND_ERROR;
+
+@Component
+public class MessageCommandManager {
+    private final NonexistentCommand nonexistentCommand;
+    private final Map<String, Command> commands;
+
+
+    public MessageCommandManager(NonexistentCommand nonexistentCommand, ApplicationContext applicationContext) {
+        this.nonexistentCommand = nonexistentCommand;
+        this.commands = applicationContext.getBeansOfType(Command.class);
+    }
+
+    public Mono<Void> processCommand(Message eventMessage) {
+        return Mono.just(eventMessage)
+                .flatMap(this::makeResponse)
+                .onErrorComplete()
+                .then();
+    }
+
+
+    private Mono<Object> makeResponse(Message message) {
+
+        String polishedCommand = polishCommand(message.getContent());
+        List<String> commandParts = extractCommandParts(polishedCommand);
+
+        try {
+
+            for (Command command : commands.values()) {
+                if (command.getName().equals(commandParts.get(0))) {
+                    return command.process(message, getNextCommandPartsToParse(commandParts));
+                }
+            }
+            return nonexistentCommand.process(message, WRONG_COMMAND_ERROR);
+        } catch (WizardBotException e) {
+            return nonexistentCommand.process(message, e.getMessage());
+        }
+
+    }
+}
