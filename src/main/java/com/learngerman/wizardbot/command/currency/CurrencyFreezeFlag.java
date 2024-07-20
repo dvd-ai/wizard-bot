@@ -66,7 +66,7 @@ public class CurrencyFreezeFlag implements CurrencyFlag {
     private EmbedCreateSpec constructResponseFreezeMessage(LocalDate defrostDate, MemberInfo memberInfo) {
         return buildUserInfoMessage(
                 "Einfrieren",
-                "Das Geld von @" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() +
+                "Das Geld von @" + memberInfo.getUsername() +
                         " wurde erfolgreich bis " + getFormattedMessageDate(defrostDate) + " gefroren!",
                 memberInfo.getAvatar()
         );

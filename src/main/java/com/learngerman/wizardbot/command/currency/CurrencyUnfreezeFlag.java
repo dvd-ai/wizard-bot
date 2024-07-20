@@ -61,7 +61,7 @@ public class CurrencyUnfreezeFlag implements CurrencyFlag {
     private EmbedCreateSpec constructResponseUnfreezeMessage(MemberInfo memberInfo) {
         return buildUserInfoMessage(
                 "Auftauen",
-                "Das Geld von @" + memberInfo.getUsername() + "#" + memberInfo.getDiscriminator() +
+                "Das Geld von @" + memberInfo.getUsername() +
                         " wurde erfolgreich aufgetaut!",
                 memberInfo.getAvatar()
         );

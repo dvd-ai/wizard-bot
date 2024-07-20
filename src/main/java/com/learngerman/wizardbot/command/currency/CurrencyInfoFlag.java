@@ -150,8 +150,7 @@ public class CurrencyInfoFlag implements CurrencyFlag {
     }
 
     private StringBuilder appendStudentInfo(StringBuilder sb, MemberInfo studentInfo, Student student) {
-        return sb.append(studentInfo.getUsername()).append("#")
-                .append(studentInfo.getDiscriminator()).append(" ")
+        return sb.append(studentInfo.getUsername()).append(" ")
                 .append(String.format("**%.2f", student.getGoldBalance())).append("**  🪙");
     }
 
@@ -193,7 +192,6 @@ public class CurrencyInfoFlag implements CurrencyFlag {
         return buildUserInfoMessage(
                 "Währungssaldo",
                 "@" + memberInfo.getUsername()
-                        + "#" + memberInfo.getDiscriminator()
                         + "\n" + String.format("**%.2f", student.getGoldBalance()) + "** 🪙\n"
                         + defrostDateStr,
                 memberInfo.getAvatar()

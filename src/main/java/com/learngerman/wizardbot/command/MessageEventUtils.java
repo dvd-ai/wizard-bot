@@ -32,7 +32,6 @@ public class MessageEventUtils {
         message.getAuthor().get().asMember(message.getGuildId().get())
                 .doOnNext(member -> {
                     memberInfo.setAvatar(member.getAvatarUrl());
-                    memberInfo.setDiscriminator(member.getDiscriminator());
                     memberInfo.setUsername(member.getUsername());
                 }).subscribe();
 
@@ -47,7 +46,6 @@ public class MessageEventUtils {
                 .onErrorResume(ClientException.isStatusCode(404), e -> Mono.empty())
                 .doOnNext(member -> {
                     memberInfo.setAvatar(member.getAvatarUrl());
-                    memberInfo.setDiscriminator(member.getDiscriminator());
                     memberInfo.setUsername(member.getUsername());
                 }).subscribe();
 
