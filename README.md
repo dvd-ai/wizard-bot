@@ -5,6 +5,7 @@
 - [Screenshots](#screenshots)
 - [Description](#description)
 - [What I've learned](#what-ive-learned)
+- [How to use](#how-to-use)
 
 ## Screenshots
 
@@ -54,4 +55,11 @@
 - how to interact with Discord API using Project Reactor & Discord4J
 - how to perform scheduled tasks in spring
 - using a map of beans-interface-imlementations from Spring Application Context to get rid of hardcoding (multiple ifs) and changing the code, in the case when new interface implementations are added to the map
+
+## How to use
+- Go to [the discord developer portal]([http://www.example.com](https://discord.com/developers)) register there and get there a discord token for the bot. The bot needs Admin scopes.
+- clone the project
+- create .env file in the root of the project and configure there environment variables, including the token **WIZARD_TOKEN** based on the docker-compose file in the project. **DATASOURCE_HOST** and **DATASOURCE_PORT** are the database container name and its port in the docker compose file.
+- build the project with **gradle :bootJar**
+- launch the project with **docker-compose up**
 
