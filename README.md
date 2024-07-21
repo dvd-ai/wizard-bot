@@ -46,5 +46,11 @@
 - Discord4j
 - Project Reactor
 - Spring Framework (JDBC)
-  
+- PostgreSQL
+
+
+## What I've learned
+- how to interact with Discord API using Project Reactor & Discord4J
+- how to perform scheduled tasks in spring
+- using a map of beans-interface-imlementations from Spring Application Context to get rid of hardcoding (multiple ifs) and changing the code, in the case when new interface implementations are added to the map
 
