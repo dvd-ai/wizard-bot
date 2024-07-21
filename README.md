@@ -5,6 +5,7 @@
 - [Screenshots](#screenshots)
 - [Description](#description)
 - [What I've learned](#what-ive-learned)
+- [Prerequisites ](#prerequisites)
 - [How to use](#how-to-use)
 
 ## Screenshots
@@ -55,6 +56,11 @@
 - how to interact with Discord API using Project Reactor & Discord4J
 - how to perform scheduled tasks in spring
 - using a map of beans-interface-imlementations from Spring Application Context to get rid of hardcoding (multiple ifs) and changing the code, in the case when new interface implementations are added to the map
+
+
+## Prerequisites
+- Java 17
+- Docker
 
 ## How to use
 - Go to [the discord developer portal]([http://www.example.com](https://discord.com/developers)) register there and get there a discord token for the bot. The bot needs Admin scopes.
